@@ -1,0 +1,13 @@
+# Rhino
+g Default object_1
+#grouping statment
+v -5 5 5
+v 5 -5 -5
+v -5 -5 -5
+vt 0.5 0
+vt 0 1
+vt 1 0
+vn 0 1 0
+vn 0 1 0
+vn 0 1 0
+f 1/1/1 2/2/2 3/3/3

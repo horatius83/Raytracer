@@ -1,0 +1,62 @@
+table
+{
+	background-color:	#6699FF;
+	border:			solid;
+	border-width:		thin;
+	margin-left:		10%;
+	width:			90%;
+}
+
+td
+{
+	text-align:		center;
+	background-color:	#000000;
+	color:			#6699FF;
+}
+
+ol
+{
+	border: 		solid;
+	border-width:		thin;
+	margin-left:		10%;
+	background-color:	#6699FF;
+}
+
+body
+{
+	font-family: 		sans-serif;
+	background-color:	#CCFFFF;
+	width:			90%;
+}
+
+li.call
+{
+	background-color:	#6699FF;
+	color:			#000000;
+}
+
+li.event
+{
+	background-color: 	#00FF33;
+	color:				#000000;	
+}
+
+li.debug
+{
+	background-color:	#FFFF99;
+	color:				#000000;
+}
+
+li.warning
+{
+	background-color:	#FFCC33;
+	color:				#000000;
+}
+
+li.error
+{
+	color:				#000000;
+	background-color:	#FF3333;	
+	font-weight:		bold;
+	
+}
