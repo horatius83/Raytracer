@@ -1,21 +1,20 @@
-#include "CDirectX9.h"
-//#include "CFractalTest.h"
-#include "CRayTracer.h"
-#include "CHtmlError.h"
-#include "CWindowsTimer.h"
-#include "CTexture.h"
-#include "TSierpinski.h"
-#include "CBihTree.h"
-#include "CMeshLoader.h"
-#include "TBlockText.h"
+#include "DirectX9.h"
+#include "RayTracer.h"
+#include "HtmlError.h"
+#include "WindowsTimer.h"
+#include "Texture.h"
+#include "Sierpinski.h"
+#include "BihTree.h"
+#include "MeshLoader.h"
+#include "BlockText.h"
 //#include <boost/lexical_cast.hpp>
 #include <sstream>
 
-NSystem::CDirectX9			g_DirectX;
-NRayTracer::CRayTracer		g_oRayTracer;
-NRayTracer::CBihTree		g_oSearch;
-NUtility::CHtmlError		g_oError;
-NGraphics::CTexture			g_oTexture;
+System::DirectX9			g_DirectX;
+RayTracer::RayTracer		g_oRayTracer;
+RayTracer::BihTree		g_oSearch;
+Utility::HtmlError		g_oError;
+Graphics::Texture			g_oTexture;
 
 LRESULT WINAPI MsgProc( HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam )
 {
@@ -34,12 +33,12 @@ LRESULT WINAPI MsgProc( HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam )
 
 				switch(wParam)
 				{
-				case VK_UP:		g_oRayTracer.m_oCamera.Move(NMath::CVector(0.0f,0.0f,0.5f));	break;
-				case VK_DOWN:	g_oRayTracer.m_oCamera.Move(NMath::CVector(0.0f,0.0f,-0.5f));	break;
-				case VK_RIGHT:	g_oRayTracer.m_oCamera.Move(NMath::CVector(0.5f,0.0f,0.0f));	break;
-				case VK_LEFT:	g_oRayTracer.m_oCamera.Move(NMath::CVector(-0.5f,0.0f,0.0f));	break;
-				case 0x5A:		g_oRayTracer.m_oCamera.Move(NMath::CVector(0.0f,-0.5f,0.0f));	break;
-				case 0x41:		g_oRayTracer.m_oCamera.Move(NMath::CVector(0.0f,0.5f,0.0f));	break;
+				case VK_UP:		g_oRayTracer.m_oCamera.Move(Math::Vector(0.0f,0.0f,0.5f));	break;
+				case VK_DOWN:	g_oRayTracer.m_oCamera.Move(Math::Vector(0.0f,0.0f,-0.5f));	break;
+				case VK_RIGHT:	g_oRayTracer.m_oCamera.Move(Math::Vector(0.5f,0.0f,0.0f));	break;
+				case VK_LEFT:	g_oRayTracer.m_oCamera.Move(Math::Vector(-0.5f,0.0f,0.0f));	break;
+				case 0x5A:		g_oRayTracer.m_oCamera.Move(Math::Vector(0.0f,-0.5f,0.0f));	break;
+				case 0x41:		g_oRayTracer.m_oCamera.Move(Math::Vector(0.0f,0.5f,0.0f));	break;
 				case VK_ESCAPE: PostQuitMessage(0); break;
 				};			
 			}break;
@@ -93,15 +92,15 @@ INT WINAPI WinMain(HINSTANCE hInst, HINSTANCE, LPSTR, INT )
 	}
 
 	//El cheapo text generation
-	NUtility::TBlockText<float> oText;
-	oText.SetColor(NGraphics::TColor<float>(0.5f,1.0f,0.5f));
+	Utility::BlockText<float> oText;
+	oText.SetColor(Graphics::Color<float>(0.5f,1.0f,0.5f));
 
-	g_oRayTracer.m_oLight.Set(NMath::CVector(0.0f,0.0f,0.0f),NGraphics::TColor<float>(1.0f,1.0f,1.0f));
+	g_oRayTracer.m_oLight.Set(Math::Vector(0.0f,0.0f,0.0f),Graphics::Color<float>(1.0f,1.0f,1.0f));
 
-	g_oRayTracer.m_oCamera.bCanSet(NMath::CVector(-8.0f,8.0f,-10.0f),NMath::CVector(0.0f,0.0f,1.0f),
-		NMath::CVector(0.0f,1.0f,0.0f));
+	g_oRayTracer.m_oCamera.bCanSet(Math::Vector(-8.0f,8.0f,-10.0f),Math::Vector(0.0f,0.0f,1.0f),
+		Math::Vector(0.0f,1.0f,0.0f));
 
-	NGraphics::CMeshLoader oLoader;
+	Graphics::MeshLoader oLoader;
 
 	if(!oLoader.bCanLoad(L"box2.obj",g_oSearch.m_oPolyList))
 		err(L"Could not load box2.obj,is it in the directory?",EL_WARNING);
@@ -126,10 +125,10 @@ INT WINAPI WinMain(HINSTANCE hInst, HINSTANCE, LPSTR, INT )
 
 			MSG msg;
 			ZeroMemory(&msg,sizeof(msg));
-			NUtility::CWindowsTimer oTimer;
+			Utility::WindowsTimer oTimer;
 			oTimer.bInitialize();
 			std::string sTimer;
-			NUtility::TArray2D< NGraphics::TColor<float> > displayBuffer;
+			Utility::Array2D< Graphics::Color<float> > displayBuffer;
 
 			while(msg.message!=WM_QUIT)
 			{
@@ -145,8 +144,7 @@ INT WINAPI WinMain(HINSTANCE hInst, HINSTANCE, LPSTR, INT )
 					static float f = 0.0f;
 					f+=0.01f;
 
-					g_oRayTracer.m_oLight.Move(NMath::CVector(0.0f,cos(f)*5.0f,sin(f)*5.0f));
-
+					g_oRayTracer.m_oLight.Move(Math::Vector(0.0f,cos(f)*5.0f,sin(f)*5.0f));
 
 					if(g_DirectX.bLockDisplay(displayBuffer))
 					{

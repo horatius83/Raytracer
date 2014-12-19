@@ -87,37 +87,38 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="CHtmlError.cpp" />
+    <ClCompile Include="HtmlError.cpp" />
+    <ClCompile Include="DirectX9.cpp" />
     <ClCompile Include="Main.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="CBihTree.h" />
-    <ClInclude Include="CCamera.h" />
-    <ClInclude Include="CDirectX9.h" />
-    <ClInclude Include="CFractalTest.h" />
-    <ClInclude Include="CHtmlError.h" />
-    <ClInclude Include="CLight.h" />
-    <ClInclude Include="CMeshLoader.h" />
-    <ClInclude Include="CNaiveSearch.h" />
-    <ClInclude Include="CPacketVector.h" />
-    <ClInclude Include="CPlane.h" />
-    <ClInclude Include="CPointLight.h" />
-    <ClInclude Include="CPolygonList.h" />
-    <ClInclude Include="CRandom.h" />
-    <ClInclude Include="CRayTracer.h" />
-    <ClInclude Include="CTexture.h" />
-    <ClInclude Include="CTgaLoader.h" />
-    <ClInclude Include="CVector.h" />
-    <ClInclude Include="CVector2D.h" />
-    <ClInclude Include="CWindowsSystemSettings.h" />
-    <ClInclude Include="CWindowsTimer.h" />
-    <ClInclude Include="TAabb.h" />
-    <ClInclude Include="TAlignedArray.h" />
-    <ClInclude Include="TArray2D.h" />
-    <ClInclude Include="TBlockText.h" />
-    <ClInclude Include="TColor.h" />
-    <ClInclude Include="TSierpinski.h" />
-    <ClInclude Include="TVector3.h" />
+    <ClInclude Include="BihTree.h" />
+    <ClInclude Include="Camera.h" />
+    <ClInclude Include="DirectX9.h" />
+    <ClInclude Include="FractalTest.h" />
+    <ClInclude Include="HtmlError.h" />
+    <ClInclude Include="Light.h" />
+    <ClInclude Include="MeshLoader.h" />
+    <ClInclude Include="NaiveSearch.h" />
+    <ClInclude Include="PacketVector.h" />
+    <ClInclude Include="Plane.h" />
+    <ClInclude Include="PointLight.h" />
+    <ClInclude Include="PolygonList.h" />
+    <ClInclude Include="Random.h" />
+    <ClInclude Include="RayTracer.h" />
+    <ClInclude Include="Texture.h" />
+    <ClInclude Include="TgaLoader.h" />
+    <ClInclude Include="Vector.h" />
+    <ClInclude Include="Vector2D.h" />
+    <ClInclude Include="WindowsSystemSettings.h" />
+    <ClInclude Include="WindowsTimer.h" />
+    <ClInclude Include="Aabb.h" />
+    <ClInclude Include="AlignedArray.h" />
+    <ClInclude Include="Array2D.h" />
+    <ClInclude Include="BlockText.h" />
+    <ClInclude Include="Color.h" />
+    <ClInclude Include="Sierpinski.h" />
+    <ClInclude Include="Vector3.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

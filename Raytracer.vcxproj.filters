@@ -13,111 +13,114 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav</Extensions>
     </Filter>
-    <Filter Include="NGraphics">
-      <UniqueIdentifier>{15595309-7e6a-457f-840f-9cda39921f16}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="NSystem">
+    <Filter Include="System">
       <UniqueIdentifier>{475c3b9b-53ff-44d0-b4c2-aecee01c04a8}</UniqueIdentifier>
     </Filter>
-    <Filter Include="NMath">
-      <UniqueIdentifier>{1e16c587-6718-468c-84fa-320500bd7746}</UniqueIdentifier>
+    <Filter Include="Utility">
+      <UniqueIdentifier>{d6333c40-2aa4-42af-b3fb-c1223a7976f9}</UniqueIdentifier>
     </Filter>
-    <Filter Include="NRayTracer">
+    <Filter Include="RayTracer">
       <UniqueIdentifier>{85422eaa-c28c-4688-8c55-13ff3134eab0}</UniqueIdentifier>
     </Filter>
-    <Filter Include="NUtility">
-      <UniqueIdentifier>{d6333c40-2aa4-42af-b3fb-c1223a7976f9}</UniqueIdentifier>
+    <Filter Include="Math">
+      <UniqueIdentifier>{1e16c587-6718-468c-84fa-320500bd7746}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Graphics">
+      <UniqueIdentifier>{15595309-7e6a-457f-840f-9cda39921f16}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="CHtmlError.cpp">
-      <Filter>NUtility</Filter>
+    <ClCompile Include="DirectX9.cpp">
+      <Filter>System</Filter>
+    </ClCompile>
+    <ClCompile Include="HtmlError.cpp">
+      <Filter>Utility</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="CMeshLoader.h">
-      <Filter>NGraphics</Filter>
+    <ClInclude Include="DirectX9.h">
+      <Filter>System</Filter>
     </ClInclude>
-    <ClInclude Include="CTexture.h">
-      <Filter>NGraphics</Filter>
+    <ClInclude Include="BlockText.h">
+      <Filter>Utility</Filter>
     </ClInclude>
-    <ClInclude Include="CTgaLoader.h">
-      <Filter>NGraphics</Filter>
+    <ClInclude Include="Color.h">
+      <Filter>Graphics</Filter>
     </ClInclude>
-    <ClInclude Include="TColor.h">
-      <Filter>NGraphics</Filter>
+    <ClInclude Include="Array2D.h">
+      <Filter>Utility</Filter>
     </ClInclude>
-    <ClInclude Include="TSierpinski.h">
-      <Filter>NGraphics</Filter>
+    <ClInclude Include="AlignedArray.h">
+      <Filter>Utility</Filter>
     </ClInclude>
-    <ClInclude Include="CDirectX9.h">
-      <Filter>NSystem</Filter>
+    <ClInclude Include="WindowsTimer.h">
+      <Filter>Utility</Filter>
     </ClInclude>
-    <ClInclude Include="CPacketVector.h">
-      <Filter>NMath</Filter>
+    <ClInclude Include="WindowsSystemSettings.h">
+      <Filter>Utility</Filter>
     </ClInclude>
-    <ClInclude Include="CPlane.h">
-      <Filter>NMath</Filter>
+    <ClInclude Include="HtmlError.h">
+      <Filter>Utility</Filter>
     </ClInclude>
-    <ClInclude Include="CRandom.h">
-      <Filter>NMath</Filter>
+    <ClInclude Include="RayTracer.h">
+      <Filter>RayTracer</Filter>
     </ClInclude>
-    <ClInclude Include="CVector.h">
-      <Filter>NMath</Filter>
+    <ClInclude Include="PolygonList.h">
+      <Filter>RayTracer</Filter>
     </ClInclude>
-    <ClInclude Include="CVector2D.h">
-      <Filter>NMath</Filter>
+    <ClInclude Include="PointLight.h">
+      <Filter>RayTracer</Filter>
     </ClInclude>
-    <ClInclude Include="TAabb.h">
-      <Filter>NMath</Filter>
+    <ClInclude Include="NaiveSearch.h">
+      <Filter>RayTracer</Filter>
     </ClInclude>
-    <ClInclude Include="TVector3.h">
-      <Filter>NMath</Filter>
+    <ClInclude Include="Light.h">
+      <Filter>RayTracer</Filter>
     </ClInclude>
-    <ClInclude Include="CBihTree.h">
-      <Filter>NRayTracer</Filter>
+    <ClInclude Include="FractalTest.h">
+      <Filter>RayTracer</Filter>
     </ClInclude>
-    <ClInclude Include="CCamera.h">
-      <Filter>NRayTracer</Filter>
+    <ClInclude Include="Camera.h">
+      <Filter>RayTracer</Filter>
     </ClInclude>
-    <ClInclude Include="CFractalTest.h">
-      <Filter>NRayTracer</Filter>
+    <ClInclude Include="BihTree.h">
+      <Filter>RayTracer</Filter>
     </ClInclude>
-    <ClInclude Include="CLight.h">
-      <Filter>NRayTracer</Filter>
+    <ClInclude Include="Vector3.h">
+      <Filter>Math</Filter>
     </ClInclude>
-    <ClInclude Include="CNaiveSearch.h">
-      <Filter>NRayTracer</Filter>
+    <ClInclude Include="Aabb.h">
+      <Filter>Math</Filter>
     </ClInclude>
-    <ClInclude Include="CPointLight.h">
-      <Filter>NRayTracer</Filter>
+    <ClInclude Include="Vector2D.h">
+      <Filter>Math</Filter>
     </ClInclude>
-    <ClInclude Include="CPolygonList.h">
-      <Filter>NRayTracer</Filter>
+    <ClInclude Include="Vector.h">
+      <Filter>Math</Filter>
     </ClInclude>
-    <ClInclude Include="CRayTracer.h">
-      <Filter>NRayTracer</Filter>
+    <ClInclude Include="Random.h">
+      <Filter>Math</Filter>
     </ClInclude>
-    <ClInclude Include="CHtmlError.h">
-      <Filter>NUtility</Filter>
+    <ClInclude Include="Plane.h">
+      <Filter>Math</Filter>
     </ClInclude>
-    <ClInclude Include="CWindowsSystemSettings.h">
-      <Filter>NUtility</Filter>
+    <ClInclude Include="PacketVector.h">
+      <Filter>Math</Filter>
     </ClInclude>
-    <ClInclude Include="CWindowsTimer.h">
-      <Filter>NUtility</Filter>
+    <ClInclude Include="Sierpinski.h">
+      <Filter>Graphics</Filter>
     </ClInclude>
-    <ClInclude Include="TAlignedArray.h">
-      <Filter>NUtility</Filter>
+    <ClInclude Include="TgaLoader.h">
+      <Filter>Graphics</Filter>
     </ClInclude>
-    <ClInclude Include="TArray2D.h">
-      <Filter>NUtility</Filter>
+    <ClInclude Include="Texture.h">
+      <Filter>Graphics</Filter>
     </ClInclude>
-    <ClInclude Include="TBlockText.h">
-      <Filter>NUtility</Filter>
+    <ClInclude Include="MeshLoader.h">
+      <Filter>Graphics</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
