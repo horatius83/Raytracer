@@ -1,5 +1,5 @@
-#ifndef CPOLYGONLIST_H
-#define CPOLYGONLIST_H
+#ifndef POLYGONLIST_H
+#define POLYGONLIST_H
 
 //#include "TArray.h"
 #include <assert.h>
@@ -13,7 +13,7 @@ namespace RayTracer
 {
 	using Utility::AlignedArray;
 
-	class CPolygonList
+	class PolygonList
 	{
 	public:
 		bool CanInitialize(AlignedArray<unsigned int>& oIndices, AlignedArray<Math::Vector>& oVertices,
@@ -31,7 +31,7 @@ namespace RayTracer
 		//The number of polygons, not the number of vertices
 		inline unsigned		uiGetSize(){ return m_oPlanes.GetSize(); };
 	private:
-		bool bCrosses(float fPointU, float fPointV, float fVectorU, float fVectorV);
+		bool DoesCross(float fPointU, float fPointV, float fVectorU, float fVectorV);
 
 		enum EPolygonType{ NOT_INITIALIZED, XDOMINANT, YDOMINANT, ZDOMINANT };
 		//1 dominant axis and plane per polygon
@@ -46,32 +46,32 @@ namespace RayTracer
 
 	};
 
-	inline void CPolygonList::GetPlaneNormal(Math::Vector& oNormal, unsigned int uiPolygonIndex)
+	inline void PolygonList::GetPlaneNormal(Math::Vector& oNormal, unsigned int uiPolygonIndex)
 	{
 		assert(uiPolygonIndex < m_oPlanes.GetSize());
 		m_oPlanes[uiPolygonIndex].GetNormal(oNormal);
 
 	}
 
-	inline Math::Vector& CPolygonList::GetVertex(unsigned int uiPolygonIndex, unsigned int uiVertexIndex)
+	inline Math::Vector& PolygonList::GetVertex(unsigned int uiPolygonIndex, unsigned int uiVertexIndex)
 	{
 		assert(uiVertexIndex < 3);
 		return m_oVertices[m_oIndices[uiPolygonIndex] + uiVertexIndex];
 	}
 
-	inline Math::Vector& CPolygonList::GetNormal(unsigned int uiPolygonIndex, unsigned int uiVertexIndex)
+	inline Math::Vector& PolygonList::GetNormal(unsigned int uiPolygonIndex, unsigned int uiVertexIndex)
 	{
 		assert(uiVertexIndex < 3);
 		return m_oNormals[m_oIndices[uiPolygonIndex] + uiVertexIndex];
 	}
 
-	inline Math::Vector2D& CPolygonList::GetTexCoords(unsigned int uiPolygonIndex, unsigned int uiVertexIndex)
+	inline Math::Vector2D& PolygonList::GetTexCoords(unsigned int uiPolygonIndex, unsigned int uiVertexIndex)
 	{
 		assert(uiVertexIndex < 3);
 		return m_oTexCoords[m_oIndices[uiPolygonIndex] + uiVertexIndex];
 	}
 
-	inline void CPolygonList::GetIntersection(Math::Vector128& oResults, unsigned int uiIndex,
+	inline void PolygonList::GetIntersection(Math::Vector128& oResults, unsigned int uiIndex,
 		Math::PacketVector& oOrigin, Math::PacketVector& Direction)
 	{
 		using Math::Vector128;
@@ -204,19 +204,19 @@ namespace RayTracer
 			for (unsigned int ui = 0; ui < 3; ++ui)
 			{
 
-				if (bCrosses(oPointU[ui].m_fData[0], oPointV[ui].m_fData[0],
+				if (DoesCross(oPointU[ui].m_fData[0], oPointV[ui].m_fData[0],
 					oVectorU[ui].m_fData[0], oVectorV[ui].m_fData[0]))
 					++iCrosses[0];
 
-				if (bCrosses(oPointU[ui].m_fData[1], oPointV[ui].m_fData[1],
+				if (DoesCross(oPointU[ui].m_fData[1], oPointV[ui].m_fData[1],
 					oVectorU[ui].m_fData[1], oVectorV[ui].m_fData[1]))
 					++iCrosses[1];
 
-				if (bCrosses(oPointU[ui].m_fData[2], oPointV[ui].m_fData[2],
+				if (DoesCross(oPointU[ui].m_fData[2], oPointV[ui].m_fData[2],
 					oVectorU[ui].m_fData[2], oVectorV[ui].m_fData[2]))
 					++iCrosses[2];
 
-				if (bCrosses(oPointU[ui].m_fData[3], oPointV[ui].m_fData[3],
+				if (DoesCross(oPointU[ui].m_fData[3], oPointV[ui].m_fData[3],
 					oVectorU[ui].m_fData[3], oVectorV[ui].m_fData[3]))
 					++iCrosses[3];
 			}
@@ -240,7 +240,7 @@ namespace RayTracer
 		}
 	}
 
-	inline float CPolygonList::GetIntersection(unsigned int uiIndex, const Math::Vector &oOrigin, const Math::Vector &Direction)
+	inline float PolygonList::GetIntersection(unsigned int uiIndex, const Math::Vector &oOrigin, const Math::Vector &Direction)
 	{
 		using Math::Vector;
 		using Math::Vector2D;
@@ -275,65 +275,38 @@ namespace RayTracer
 			case XDOMINANT:	//z and y coords
 			{
 				//1rst intersection (A->B)
-				//oPoint2D.Set(oPoint1.fGetZ(),oPoint1.GetY());
-				//oVector2D.Set(oVec1.fGetZ(),oVec1.GetY());
-				//if(bCrosses(oPoint2D,oVector2D))
-				if (bCrosses(oPoint1.fGetZ(), oPoint1.GetY(), oVec1.fGetZ(), oVec1.GetY()))
+				if (DoesCross(oPoint1.fGetZ(), oPoint1.GetY(), oVec1.fGetZ(), oVec1.GetY()))
 					++iCrosses;
 				//2nd intersection (B->C)
-				//oPoint2D.Set(oPoint2.fGetZ(),oPoint2.GetY());
-				//oVector2D.Set(oVec2.fGetZ(),oVec2.GetY());
-				//if(bCrosses(oPoint2D,oVector2D))
-				if (bCrosses(oPoint2.fGetZ(), oPoint2.GetY(), oVec2.fGetZ(), oVec2.GetY()))
+				if (DoesCross(oPoint2.fGetZ(), oPoint2.GetY(), oVec2.fGetZ(), oVec2.GetY()))
 					++iCrosses;
 				//3rd intersection (C->A)
-				//oPoint2D.Set(oPoint3.fGetZ(),oPoint3.GetY());
-				//oVector2D.Set(oVec3.fGetZ(),oVec3.GetY());
-				//if(bCrosses(oPoint2D,oVector2D))
-				if (bCrosses(oPoint3.fGetZ(), oPoint3.GetY(), oVec3.fGetZ(), oVec3.GetY()))
+				if (DoesCross(oPoint3.fGetZ(), oPoint3.GetY(), oVec3.fGetZ(), oVec3.GetY()))
 					++iCrosses;
 			}break;
 			case YDOMINANT: //x and z coords
 			{
 				//1rst intersection (A->B)
-				//oPoint2D.Set(oPoint1.GetX(),oPoint1.fGetZ());
-				//oVector2D.Set(oVec1.GetX(),oVec1.fGetZ());
-				//if(bCrosses(oPoint2D,oVector2D))
-				if (bCrosses(oPoint1.GetX(), oPoint1.fGetZ(), oVec1.GetX(), oVec1.fGetZ()))
+				if (DoesCross(oPoint1.GetX(), oPoint1.fGetZ(), oVec1.GetX(), oVec1.fGetZ()))
 					++iCrosses;
 				//2nd intersection (B->C)
-				//oPoint2D.Set(oPoint2.GetX(),oPoint2.fGetZ());
-				//oVector2D.Set(oVec2.GetX(),oVec2.fGetZ());
-				//if(bCrosses(oPoint2D,oVector2D))
-				if (bCrosses(oPoint2.GetX(), oPoint2.fGetZ(), oVec2.GetX(), oVec2.fGetZ()))
+				if (DoesCross(oPoint2.GetX(), oPoint2.fGetZ(), oVec2.GetX(), oVec2.fGetZ()))
 					++iCrosses;
 				//3rd intersection (C->A)
-				//oPoint2D.Set(oPoint3.GetX(),oPoint3.fGetZ());
-				//oVector2D.Set(oVec3.GetX(),oVec3.fGetZ());
-				//if(bCrosses(oPoint2D,oVector2D))
-				if (bCrosses(oPoint3.GetX(), oPoint3.fGetZ(), oVec3.GetX(), oVec3.fGetZ()))
+				if (DoesCross(oPoint3.GetX(), oPoint3.fGetZ(), oVec3.GetX(), oVec3.fGetZ()))
 					++iCrosses;
 			}break;
 			case ZDOMINANT:	//x and y coords
 			default:
 			{
 				//1rst intersection (A->B)
-				//oPoint2D.Set(oPoint1.GetX(),oPoint1.GetY());
-				//oVector2D.Set(oVec1.GetX(),oVec1.GetY());
-				//if(bCrosses(oPoint2D,oVector2D))
-				if (bCrosses(oPoint1.GetX(), oPoint1.GetY(), oVec1.GetX(), oVec1.GetY()))
+				if (DoesCross(oPoint1.GetX(), oPoint1.GetY(), oVec1.GetX(), oVec1.GetY()))
 					++iCrosses;
 				//2nd intersection (B->C)
-				//oPoint2D.Set(oPoint2.GetX(),oPoint2.GetY());
-				//oVector2D.Set(oVec2.GetX(),oVec2.GetY());
-				//if(bCrosses(oPoint2D,oVector2D))
-				if (bCrosses(oPoint2.GetX(), oPoint2.GetY(), oVec2.GetX(), oVec2.GetY()))
+				if (DoesCross(oPoint2.GetX(), oPoint2.GetY(), oVec2.GetX(), oVec2.GetY()))
 					++iCrosses;
 				//3rd intersection (C->A)
-				//oPoint2D.Set(oPoint3.GetX(),oPoint3.GetY());
-				//oVector2D.Set(oVec3.GetX(),oVec3.GetY());
-				//if(bCrosses(oPoint2D,oVector2D))
-				if (bCrosses(oPoint3.GetX(), oPoint3.GetY(), oVec3.GetX(), oVec3.GetY()))
+				if (DoesCross(oPoint3.GetX(), oPoint3.GetY(), oVec3.GetX(), oVec3.GetY()))
 					++iCrosses;
 			}break;
 			}
@@ -344,7 +317,7 @@ namespace RayTracer
 		return FLT_MAX;
 	}
 
-	inline bool CPolygonList::bCrosses(float fPointU, float fPointV, float fVectorU, float fVectorV)
+	inline bool PolygonList::DoesCross(float fPointU, float fPointV, float fVectorU, float fVectorV)
 	{
 		//if(oVector.GetY())
 		if (fVectorV)
@@ -359,7 +332,7 @@ namespace RayTracer
 		return false;
 	}
 
-	bool CPolygonList::CanInitialize(AlignedArray<unsigned int>& oIndices, AlignedArray<Math::Vector>& oVertices,
+	bool PolygonList::CanInitialize(AlignedArray<unsigned int>& oIndices, AlignedArray<Math::Vector>& oVertices,
 		AlignedArray<Math::Vector>& oNormals, AlignedArray<Math::Vector2D>& oTexCoords)
 	{
 		using Math::Vector;

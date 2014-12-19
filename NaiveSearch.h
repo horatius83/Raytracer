@@ -39,7 +39,7 @@ namespace RayTracer
 			PacketVector& oOrigin,PacketVector& Direction);
 		void GetShadowIntersection(Vector128& oResults,PacketVector& oOrigin,PacketVector& Direction);
 
-		CPolygonList	m_oPolyList;
+		PolygonList	m_oPolyList;
 	};
 
 	inline void NaiveSearch::GetPrimaryIntersection(Vector128& oResults,
