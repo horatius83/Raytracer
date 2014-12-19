@@ -8,7 +8,8 @@
 #include "CBihTree.h"
 #include "CMeshLoader.h"
 #include "TBlockText.h"
-#include <boost/lexical_cast.hpp>
+//#include <boost/lexical_cast.hpp>
+#include <sstream>
 
 NSystem::CDirectX9			g_DirectX;
 NRayTracer::CRayTracer		g_oRayTracer;
@@ -134,8 +135,12 @@ INT WINAPI WinMain(HINSTANCE hInst, HINSTANCE, LPSTR, INT )
 			{
 				if(!PeekMessage(&msg,NULL,0U,0U,PM_REMOVE))
 				{
-					sTimer = "FPS: ";
-					sTimer.append(boost::lexical_cast<std::string>(1000.0f/float(oTimer.ulGetMilliSeconds()))); 
+					//sTimer = "FPS: ";
+					//sTimer.append(boost::lexical_cast<std::string>(1000.0f/float(oTimer.ulGetMilliSeconds())));
+					auto fps = 1000.0f / float(oTimer.ulGetMilliSeconds());
+					std::ostringstream ss;
+					ss << "FPS: " << fps;
+					sTimer = ss.str();
 					oTimer.Start();
 					static float f = 0.0f;
 					f+=0.01f;
@@ -148,24 +153,27 @@ INT WINAPI WinMain(HINSTANCE hInst, HINSTANCE, LPSTR, INT )
 						g_oRayTracer.Render(displayBuffer);
 
 						oText.Print(sTimer,0,0,displayBuffer);
+						std::ostringstream locationString;
 
-						sTimer = "Location (";
+						/*sTimer = "Location (";
 						sTimer.append(boost::lexical_cast<std::string>(g_oRayTracer.m_oCamera.oGetOrigin().fGetX()));
 						sTimer.append(", ");
 						sTimer.append(boost::lexical_cast<std::string>(g_oRayTracer.m_oCamera.oGetOrigin().fGetY()));
 						sTimer.append(", ");
 						sTimer.append(boost::lexical_cast<std::string>(g_oRayTracer.m_oCamera.oGetOrigin().fGetZ()));
-						sTimer.append(")");
+						sTimer.append(")");*/
+						sTimer = "Location " + g_oRayTracer.m_oCamera.oGetOrigin().toString();
 						oText.Print(sTimer,0,8,displayBuffer);
 					
 
-						sTimer = "Light (";
+						/*sTimer = "Light (";
 						sTimer.append(boost::lexical_cast<std::string>(g_oRayTracer.m_oLight.oGetPosition().fGetX()));
 						sTimer.append(", ");
 						sTimer.append(boost::lexical_cast<std::string>(g_oRayTracer.m_oLight.oGetPosition().fGetY()));
 						sTimer.append(", ");
 						sTimer.append(boost::lexical_cast<std::string>(g_oRayTracer.m_oLight.oGetPosition().fGetZ()));
-						sTimer.append(")");
+						sTimer.append(")");*/
+						sTimer = "Light " + g_oRayTracer.m_oCamera.oGetDirection().toString();
 						oText.Print(sTimer,0,16,displayBuffer);
 
 						g_DirectX.UnlockDisplay();

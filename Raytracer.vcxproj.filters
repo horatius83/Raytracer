@@ -1,0 +1,123 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav</Extensions>
+    </Filter>
+    <Filter Include="NGraphics">
+      <UniqueIdentifier>{15595309-7e6a-457f-840f-9cda39921f16}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="NSystem">
+      <UniqueIdentifier>{475c3b9b-53ff-44d0-b4c2-aecee01c04a8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="NMath">
+      <UniqueIdentifier>{1e16c587-6718-468c-84fa-320500bd7746}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="NRayTracer">
+      <UniqueIdentifier>{85422eaa-c28c-4688-8c55-13ff3134eab0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="NUtility">
+      <UniqueIdentifier>{d6333c40-2aa4-42af-b3fb-c1223a7976f9}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CHtmlError.cpp">
+      <Filter>NUtility</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="CMeshLoader.h">
+      <Filter>NGraphics</Filter>
+    </ClInclude>
+    <ClInclude Include="CTexture.h">
+      <Filter>NGraphics</Filter>
+    </ClInclude>
+    <ClInclude Include="CTgaLoader.h">
+      <Filter>NGraphics</Filter>
+    </ClInclude>
+    <ClInclude Include="TColor.h">
+      <Filter>NGraphics</Filter>
+    </ClInclude>
+    <ClInclude Include="TSierpinski.h">
+      <Filter>NGraphics</Filter>
+    </ClInclude>
+    <ClInclude Include="CDirectX9.h">
+      <Filter>NSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="CPacketVector.h">
+      <Filter>NMath</Filter>
+    </ClInclude>
+    <ClInclude Include="CPlane.h">
+      <Filter>NMath</Filter>
+    </ClInclude>
+    <ClInclude Include="CRandom.h">
+      <Filter>NMath</Filter>
+    </ClInclude>
+    <ClInclude Include="CVector.h">
+      <Filter>NMath</Filter>
+    </ClInclude>
+    <ClInclude Include="CVector2D.h">
+      <Filter>NMath</Filter>
+    </ClInclude>
+    <ClInclude Include="TAabb.h">
+      <Filter>NMath</Filter>
+    </ClInclude>
+    <ClInclude Include="TVector3.h">
+      <Filter>NMath</Filter>
+    </ClInclude>
+    <ClInclude Include="CBihTree.h">
+      <Filter>NRayTracer</Filter>
+    </ClInclude>
+    <ClInclude Include="CCamera.h">
+      <Filter>NRayTracer</Filter>
+    </ClInclude>
+    <ClInclude Include="CFractalTest.h">
+      <Filter>NRayTracer</Filter>
+    </ClInclude>
+    <ClInclude Include="CLight.h">
+      <Filter>NRayTracer</Filter>
+    </ClInclude>
+    <ClInclude Include="CNaiveSearch.h">
+      <Filter>NRayTracer</Filter>
+    </ClInclude>
+    <ClInclude Include="CPointLight.h">
+      <Filter>NRayTracer</Filter>
+    </ClInclude>
+    <ClInclude Include="CPolygonList.h">
+      <Filter>NRayTracer</Filter>
+    </ClInclude>
+    <ClInclude Include="CRayTracer.h">
+      <Filter>NRayTracer</Filter>
+    </ClInclude>
+    <ClInclude Include="CHtmlError.h">
+      <Filter>NUtility</Filter>
+    </ClInclude>
+    <ClInclude Include="CWindowsSystemSettings.h">
+      <Filter>NUtility</Filter>
+    </ClInclude>
+    <ClInclude Include="CWindowsTimer.h">
+      <Filter>NUtility</Filter>
+    </ClInclude>
+    <ClInclude Include="TAlignedArray.h">
+      <Filter>NUtility</Filter>
+    </ClInclude>
+    <ClInclude Include="TArray2D.h">
+      <Filter>NUtility</Filter>
+    </ClInclude>
+    <ClInclude Include="TBlockText.h">
+      <Filter>NUtility</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>

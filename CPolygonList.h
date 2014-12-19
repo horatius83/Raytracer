@@ -2,6 +2,7 @@
 #define CPOLYGONLIST_H
 
 //#include "TArray.h"
+#include <assert.h>
 #include "CVector.h"
 #include "CVector2D.h"
 #include "CPlane.h"

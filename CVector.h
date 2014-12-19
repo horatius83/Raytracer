@@ -4,6 +4,7 @@
 #include <math.h>
 #include <xmmintrin.h>
 #include <fvec.h>
+#include <sstream>
 #include "CPacketVector.h"
 
 namespace NMath
@@ -26,6 +27,12 @@ namespace NMath
 
 		//inline float*	pGetVector(){return &m_fVector[0];};
 		inline __m128	sseGetVector() const{return m_sseData;};
+
+		std::string toString() {
+			std::ostringstream ss;
+			ss << "(" << fGetX() << ", " << fGetY() << ", " << fGetZ() << ")";
+			return ss.str();
+		}
 
 		//Mutators
 		inline void SetX(float fx){m_fX=fx;};

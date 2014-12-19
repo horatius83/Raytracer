@@ -41,3 +41,17 @@ Icon
 Network Trash Folder
 Temporary Items
 .apdisk
+
+Debug/Main.obj
+Debug/CHtmlError.obj
+Debug/Raytracer.exe
+*.ilk
+*.log
+*.pdb
+*.tlog
+*.idb
+Release/Raytracer.exe
+Release/CHtmlError.obj
+Release/Main.obj
+Raytracer.opensdf
+Raytracer.v12.suo

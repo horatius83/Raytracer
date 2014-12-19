@@ -1,11 +1,11 @@
 #ifndef CDIRECTX9_H
 #define CDIRECTX9_H
 
-
 #include <d3d9.h>
-#include <d3dx9.h>
+//#include <d3dx9.h>
+//#include <D3dx9tex.h>
 #pragma comment( lib, "d3d9.lib" )
-#pragma comment( lib, "d3dx9.lib")
+//#pragma comment( lib, "d3dx9.lib")
 
 //#include "CPixel.h"
 #include "TColor.h"
@@ -237,14 +237,26 @@ namespace NSystem
 		return false;
 	}
 
+	LPDIRECT3DTEXTURE9 CreateTexture(LPDIRECT3DDEVICE9 device, unsigned int width, unsigned int height) {
+		LPDIRECT3DTEXTURE9 texture = NULL;
+		auto result = device->CreateTexture(width, height, 1, D3DUSAGE_DYNAMIC, D3DFMT_A32B32G32R32F, D3DPOOL_DEFAULT, &texture, NULL);
+		if (SUCCEEDED(result)) {
+			return texture;
+		}
+		else {
+			return NULL;
+		}
+	}
+
 	bool CDirectX9::CanInitTexture()
-	{
-		
-		if(SUCCEEDED(D3DXCreateTexture(m_pDevice,m_uiWidth,m_uiHeight,1,D3DUSAGE_DYNAMIC,D3DFMT_A32B32G32R32F,
+	{	
+		/*if(SUCCEEDED(D3DXCreateTexture(m_pDevice,m_uiWidth,m_uiHeight,1,D3DUSAGE_DYNAMIC,D3DFMT_A32B32G32R32F,
 			D3DPOOL_DEFAULT,&m_pTexture)))
 			return true;
 		else
-			return false;
+			return false;*/
+		m_pTexture = CreateTexture(m_pDevice, m_uiWidth, m_uiHeight);
+		return m_pTexture != NULL;
 	}
 }
 
