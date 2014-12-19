@@ -78,9 +78,6 @@ namespace Graphics
 			m_fRed = tColor.m_fRed * tScalar;
 			m_fGreen = tColor.m_fGreen * tScalar;
 			m_fBlue = tColor.m_fBlue * tScalar;
-			/*SetRed(tColor.m_fRed*tScalar);
-			SetGreen(tColor.m_fGreen*tScalar);
-			SetBlue(tColor.m_fBlue*tScalar);*/
 		}
 	private:
 		float m_fRed;

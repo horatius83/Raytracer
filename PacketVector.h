@@ -37,7 +37,7 @@ namespace Math
 			Set(oPacket);
 		}
 		//Are all these rays going to the same place?
-		inline bool bValidPacket()
+		inline bool IsCoherentPacket()
 		{
 			int im1 = _mm_movemask_ps(m_sseX);
 			int im2 = _mm_movemask_ps(m_sseY);

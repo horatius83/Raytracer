@@ -18,34 +18,34 @@ namespace Graphics
 		{
 			m_oData.Deallocate();
 		};
-		bool bCanLoadImage(const std::wstring& sFilename);
+		bool CanLoadImage(const std::wstring& sFilename);
 		inline void DeleteImage()
 		{
 			m_oData.Deallocate();
 		}
-		bool bCanSet(Utility::Array2D< Graphics::Color<unsigned char> >& oData);
-		bool bCanCopy(Utility::Array2D< Graphics::Color<unsigned char> >& oData);
+		bool CanSet(Utility::Array2D< Graphics::Color<unsigned char> >& oData);
+		bool CanCopy(Utility::Array2D< Graphics::Color<unsigned char> >& oData);
 
-		inline unsigned int uiGetWidth(){return m_oData.uiGetWidth();};
-		inline unsigned int uiGetHeight(){return m_oData.uiGetHeight();};
-		inline unsigned int uiGetBpp(){return 32;};
+		inline unsigned int GetWidth(){return m_oData.GetWidth();};
+		inline unsigned int GetHeight(){return m_oData.GetHeight();};
+		inline unsigned int GetBpp(){return 32;};
 	private:
 		Utility::Array2D< Graphics::Color<unsigned char> > m_oData;
 	};
 
-	bool Texture::bCanLoadImage(const std::wstring &sFilename)
+	bool Texture::CanLoadImage(const std::wstring &sFilename)
 	{
 		return true;	
 	}
 
 	//This transfers a pointer to an array from oData to m_oData, oData will now be invalid
-	inline bool Texture::bCanSet(Utility::Array2D< Graphics::Color<unsigned char> > &oData)
+	inline bool Texture::CanSet(Utility::Array2D< Graphics::Color<unsigned char> > &oData)
 	{
 		m_oData.Set(oData);
 	}
 
 	//This copies the content of oData to m_oData
-	inline bool Texture::bCanCopy(Utility::Array2D< Graphics::Color<unsigned char> > &oData)
+	inline bool Texture::CanCopy(Utility::Array2D< Graphics::Color<unsigned char> > &oData)
 	{
 		m_oData.Copy(oData);
 	}

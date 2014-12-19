@@ -44,9 +44,9 @@ namespace RayTracer
 	{
 	public:
 		void GetPrimaryIntersection(Vector128& oResults,PolyIndices& oPolyIndices,
-			PacketVector& oOrigin,PacketVector& oDirection);
-		void GetShadowIntersection(Vector128& oResults,PacketVector& oOrigin,PacketVector& oDirection);
-		bool bCanInitialize();
+			PacketVector& oOrigin,PacketVector& Direction);
+		void GetShadowIntersection(Vector128& oResults,PacketVector& oOrigin,PacketVector& Direction);
+		bool CanInitialize();
 		void BuildTree();
 	private:
 		void BuildTree(unsigned int uiLeft,unsigned int uiRight,float fSplitPlane,BihAxis eAxis,unsigned int& uiIndex);
@@ -71,11 +71,11 @@ namespace RayTracer
 	void BihTree::BuildTree()
 	{
 		unsigned int uiIndex = 0;
-		switch(m_oScene.oGetData())
+		switch(m_oScene.GetData())
 		{
-		case XAxis:	BuildTree(0,(unsigned int)m_oVectors.size(),m_oScene.oGetRightPoint().fGetX()-m_oScene.oGetLeftPoint().fGetX(),XAxis,uiIndex); break;
-		case YAxis: BuildTree(0,(unsigned int)m_oVectors.size(),m_oScene.oGetRightPoint().fGetY()-m_oScene.oGetLeftPoint().fGetY(),YAxis,uiIndex); break;
-		case ZAxis: BuildTree(0,(unsigned int)m_oVectors.size(),m_oScene.oGetRightPoint().fGetZ()-m_oScene.oGetLeftPoint().fGetZ(),ZAxis,uiIndex); break;
+		case XAxis:	BuildTree(0,(unsigned int)m_oVectors.size(),m_oScene.GetRightPoint().GetX()-m_oScene.GetLeftPoint().GetX(),XAxis,uiIndex); break;
+		case YAxis: BuildTree(0,(unsigned int)m_oVectors.size(),m_oScene.GetRightPoint().GetY()-m_oScene.GetLeftPoint().GetY(),YAxis,uiIndex); break;
+		case ZAxis: BuildTree(0,(unsigned int)m_oVectors.size(),m_oScene.GetRightPoint().fGetZ()-m_oScene.GetLeftPoint().fGetZ(),ZAxis,uiIndex); break;
 		default:	throw "BihTree::BuildTree() : Invalid argument \"Leaf\""; break;
 		}
 	}
@@ -88,7 +88,7 @@ namespace RayTracer
 			functor.m_axis = eAxis;
 
 			//divide the scene by the longest side
-			switch(m_oScene.oGetData())
+			switch(m_oScene.GetData())
 			{
 			case XAxis:
 				{
@@ -118,14 +118,14 @@ namespace RayTracer
 	}
 
 	void BihTree::GetPrimaryIntersection(Vector128& oResults,RayTracer::PolyIndices& oPolyIndices,
-		PacketVector& oOrigin,PacketVector& oDirection)
+		PacketVector& oOrigin,PacketVector& Direction)
 	{
 		oResults.m_sseData = _mm_set_ps1(FLT_MAX);
 
 		//does it intersect the bounding cube
 		Math::Vector128 intsScene;
 
-		m_oScene.DoesIntersect(intsScene,oOrigin,oDirection);
+		m_oScene.DoesIntersect(intsScene,oOrigin,Direction);
 		if(_mm_movemask_ps(_mm_cmplt_ps(intsScene.m_sseData,_mm_set_ps1(FLT_MAX))))
 		{
 			Math::Vector128 polyInt;
@@ -135,43 +135,31 @@ namespace RayTracer
 
 			for(unsigned int ui=0;ui<NaiveSearch::m_oPolyList.uiGetSize();++ui)
 			{
-				NaiveSearch::m_oPolyList.GetIntersection(polyInt,ui,oOrigin,oDirection);
+				NaiveSearch::m_oPolyList.GetIntersection(polyInt,ui,oOrigin,Direction);
 				oResults.m_sseData = _mm_min_ps(oResults.m_sseData,polyInt.m_sseData);
 			}
 		}
 
 	}
 
-	bool BihTree::bCanInitialize()
+	bool BihTree::CanInitialize()
 	{
-		//if(NaiveSearch::m_oPolyList.bCanInitialize(oIndices,oVertices,oNormals,oTexCoords))
-		//{
 		Math::Vector128 min,max,vecA,vecB,vecC,polyMax,polyMin;
 		min.m_sseData = _mm_set_ps1(0.0f);
 		max.m_sseData = _mm_set_ps1(0.0f);
 		m_oVectors.resize(NaiveSearch::m_oPolyList.uiGetSize());
 		//Masks for A>(B>C) (B>C)>A and A>C
-		//__m128 sseMask,sseVar;
 
 		for(unsigned int ui=0;ui<NaiveSearch::m_oPolyList.uiGetSize();++ui)
 		{
-			vecA.m_sseData = m_oPolyList.oGetVertex(ui,0).sseGetVector();
-			vecB.m_sseData = m_oPolyList.oGetVertex(ui,1).sseGetVector();
-			vecC.m_sseData = m_oPolyList.oGetVertex(ui,2).sseGetVector();
+			vecA.m_sseData = m_oPolyList.GetVertex(ui,0).GetVector();
+			vecB.m_sseData = m_oPolyList.GetVertex(ui,1).GetVector();
+			vecC.m_sseData = m_oPolyList.GetVertex(ui,2).GetVector();
 
 			//Calculate bounding box for the polygon
 			//Greatest vertex
 			polyMax.m_sseData = _mm_max_ps(vecA.m_sseData,vecB.m_sseData);
 			polyMax.m_sseData = _mm_max_ps(polyMax.m_sseData,vecC.m_sseData);
-			/*
-			sseMask = _mm_cmpgt_ps(vecA.m_sseData,vecB.m_sseData);
-			sseVar = _mm_add_ps(
-				_mm_and_ps(vecA.m_sseData,sseMask),
-				_mm_andnot_ps(sseMask,vecB.m_sseData));
-			sseMask = _mm_cmpgt_ps(sseVar,vecC.m_sseData);
-			polyMax.m_sseData = _mm_add_ps(
-				_mm_and_ps(sseVar,sseMask),
-				_mm_andnot_ps(sseMask,vecC.m_sseData));*/
 
 			//Smallest vertex
 			polyMin.m_sseData = _mm_min_ps(vecA.m_sseData,vecB.m_sseData);
@@ -181,30 +169,10 @@ namespace RayTracer
 			m_oVectors[ui].y = polyMin.m_fData[1];
 			m_oVectors[ui].z = polyMin.m_fData[3];
 			m_oVectors[ui].index = ui;
-			/*
-			sseMask = _mm_cmplt_ps(vecA.m_sseData,vecB.m_sseData);
-			sseVar = _mm_add_ps(
-				_mm_and_ps(vecA.m_sseData,sseMask),
-				_mm_andnot_ps(sseMask,vecB.m_sseData));
-			sseMask = _mm_cmplt_ps(sseVar,vecC.m_sseData);
-			polyMin.m_sseData = _mm_add_ps(
-				_mm_and_ps(sseVar,sseMask),
-				_mm_andnot_ps(sseMask,vecC.m_sseData));*/
-
 		
 			//Add to the cumulitive max
 			max.m_sseData = _mm_max_ps(max.m_sseData,polyMax.m_sseData);
 			min.m_sseData = _mm_min_ps(min.m_sseData,polyMin.m_sseData);
-			/*
-			sseMask = _mm_cmpgt_ps(max.m_sseData,polyMax.m_sseData);
-			max.m_sseData = _mm_add_ps(
-				_mm_and_ps(max.m_sseData,sseMask),
-				_mm_andnot_ps(sseMask,polyMax.m_sseData));
-
-			sseMask = _mm_cmplt_ps(min.m_sseData,polyMin.m_sseData);
-			min.m_sseData = _mm_add_ps(
-				_mm_and_ps(min.m_sseData,sseMask),
-				_mm_andnot_ps(sseMask,polyMin.m_sseData));*/
 		}
 			
 		m_oScene.SetLeftPoint(Vector(min.m_sseData));
@@ -213,7 +181,7 @@ namespace RayTracer
 		//Determine the first splitting plane of the global scene 
 		Math::Vector128 oAxis;
 	
-		oAxis.m_sseData = _mm_sub_ps(m_oScene.oGetRightPoint().sseGetVector(),m_oScene.oGetLeftPoint().sseGetVector());
+		oAxis.m_sseData = _mm_sub_ps(m_oScene.GetRightPoint().GetVector(),m_oScene.GetLeftPoint().GetVector());
 
 		if((oAxis.m_fData[0]>=oAxis.m_fData[1]) && (oAxis.m_fData[1]>=oAxis.m_fData[2]))
 			m_oScene.SetData(XAxis);
@@ -227,7 +195,6 @@ namespace RayTracer
 					m_oScene.SetData(ZAxis);
 			}
 		}
-
 		return true;
 	}
 }

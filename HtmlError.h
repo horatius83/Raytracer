@@ -38,90 +38,90 @@ namespace Utility
 	class HtmlError
 	{
 	public:
-		static bool bOpen(const wstring& sFileName,const wstring& sCssFile,bool bEmbed);
-		static void ErrorMessage(const char* sFunction,const wstring& sError,int iErrorLevel);
+		static bool Open(const wstring& sFileName, const wstring& sCssFile, bool bEmbed);
+		static void ErrorMessage(const char* sFunction, const wstring& sError, int iErrorLevel);
 		static void LogEvent(const char* sFunction);
-		static void OutputVariable(const wstring& sName,int iVariable);
-		static void OutputVariable(const wstring& sName,float fVariable);
-		static void OutputVariable(const wstring& sName,unsigned int uiVariable);
+		static void OutputVariable(const wstring& sName, int iVariable);
+		static void OutputVariable(const wstring& sName, float fVariable);
+		static void OutputVariable(const wstring& sName, unsigned int uiVariable);
 
-		static void ErrorCode(const wstring& sError,int iCode);
+		static void ErrorCode(const wstring& sError, int iCode);
 		static void Close();
-		static void Allocated(const char* szFunction,const wstring& sName,long lBytes);
-		static void Deallocated(const char* szFunction,long lBytes);
+		static void Allocated(const char* szFunction, const wstring& sName, long lBytes);
+		static void Deallocated(const char* szFunction, long lBytes);
 	private:
 		static void OutputSystemSettings();
 		static void OutputErrorCode(int iError_Level);
 		static void DateOut(tm* pTime);
 		static void TimeOut(tm* pTime);
 
-		static wofstream sm_oOutData;	
+		static wofstream sm_oOutData;
 		static long sm_lBytes;
 	};
-	
-	inline void HtmlError::Allocated(const char* szFunction,const wstring& sName,long lBytes)
+
+	inline void HtmlError::Allocated(const char* szFunction, const wstring& sName, long lBytes)
 	{
 #ifndef SUPPRESS_ALLOCATION_EVENTS
-		sm_oOutData<<L"<li class=\"event\">"<<szFunction<<L"(): <b>"<<sName<<L"</b> allocated: <b>"<<lBytes<<L"</b> bytes</li>\n";
+		sm_oOutData << L"<li class=\"event\">" << szFunction << L"(): <b>" << sName << L"</b> allocated: <b>" << lBytes << L"</b> bytes</li>\n";
 #endif
-		sm_lBytes+=lBytes;
+		sm_lBytes += lBytes;
 #ifndef SUPPRESS_ALIGNMENT_EVENTS
-		if(lBytes%16)
-			err(L"Data not aligned to address boundaries (16 byte)",EL_WARNING);
+		if (lBytes % 16)
+			err(L"Data not aligned to address boundaries (16 byte)", EL_WARNING);
 #endif
 	}
 
-	inline void HtmlError::Deallocated(const char* szFunction,long lBytes)
+	inline void HtmlError::Deallocated(const char* szFunction, long lBytes)
 	{
 #ifndef SUPPRESS_ALLOCATION_EVENTS
-		sm_oOutData<<L"<li class=\"event\">"<<szFunction<<L"(): deallocated: <b>"<<lBytes<<L"</b> bytes</li>\n";
+		sm_oOutData << L"<li class=\"event\">" << szFunction << L"(): deallocated: <b>" << lBytes << L"</b> bytes</li>\n";
 #endif
-		sm_lBytes-=lBytes;
+		sm_lBytes -= lBytes;
 	}
 
 	inline void HtmlError::DateOut(tm* pTime)
 	{
-		sm_oOutData<<pTime->tm_mon+1<<'/'<<pTime->tm_mday<<'/'<<pTime->tm_year+1900;	
+		sm_oOutData << pTime->tm_mon + 1 << '/' << pTime->tm_mday << '/' << pTime->tm_year + 1900;
 	}
 
 	inline void HtmlError::LogEvent(const char* sFunction)
 	{
-		sm_oOutData<<L"<li class=\"call\">"<<sFunction<<L"()</li>\n";
+		sm_oOutData << L"<li class=\"call\">" << sFunction << L"()</li>\n";
 	}
 
-	inline void HtmlError::OutputVariable(const wstring& sName,unsigned int uiVariable)
+	inline void HtmlError::OutputVariable(const wstring& sName, unsigned int uiVariable)
 	{
-		sm_oOutData<<L"<li class=\"debug\">"<<sName<<L": <b>"<<uiVariable<<L"</b></li>\n";
+		sm_oOutData << L"<li class=\"debug\">" << sName << L": <b>" << uiVariable << L"</b></li>\n";
 	}
 
-	inline void HtmlError::OutputVariable(const wstring& sName,int iVariable)
+	inline void HtmlError::OutputVariable(const wstring& sName, int iVariable)
 	{
-		sm_oOutData<<L"<li class=\"debug\">"<<sName<<L": <b>"<<iVariable<<L"</b></li>\n";
+		sm_oOutData << L"<li class=\"debug\">" << sName << L": <b>" << iVariable << L"</b></li>\n";
 	}
 
-	inline void HtmlError::OutputVariable(const wstring& sName,float fVariable)
+	inline void HtmlError::OutputVariable(const wstring& sName, float fVariable)
 	{
-		sm_oOutData<<L"<li class=\"debug\">"<<sName<<L": <b>"<<fVariable<<L"</b></li>\n";
+		sm_oOutData << L"<li class=\"debug\">" << sName << L": <b>" << fVariable << L"</b></li>\n";
 	}
 
-	inline void HtmlError::ErrorCode(const std::wstring& sError,int iCode)
+	inline void HtmlError::ErrorCode(const std::wstring& sError, int iCode)
 	{
-		sm_oOutData<<L"<li class=\"error\">"<<sError<<L" : "<<iCode<<L"</li>\n";
+		sm_oOutData << L"<li class=\"error\">" << sError << L" : " << iCode << L"</li>\n";
 	}
 
-	inline void HtmlError::ErrorMessage(const char* sFunction,const std::wstring &sError,int iErrorLevel)
+	inline void HtmlError::ErrorMessage(const char* sFunction, const std::wstring &sError, int iErrorLevel)
 	{
 #ifdef EL_LEVEL
-		switch(iErrorLevel)
+		switch (iErrorLevel)
 		{
 		case EL_ERROR:
-			{
-				sm_oOutData<<L"<li class=\"error\">"<<sFunction<<L"() :"<<sError<<L"</li>\n";	
-			}break;
-		case EL_WARNING:	sm_oOutData<<L"<li class=\"warning\">"<<sFunction<<L"() :"<<sError<<L"</li>\n";	break;
-		case EL_DEBUG:		sm_oOutData<<L"<li class=\"debug\">"<<sFunction<<L"() :"<<sError<<L"</li>\n";	break;
-		case EL_CALL:		sm_oOutData<<L"<li class=\"call\">"<<sFunction<<L"() :"<<sError<<L"</li>\n";	break;
-		case EL_EVENT:		sm_oOutData<<L"<li class=\"event\">"<<sFunction<<L"() :"<<sError<<L"</li>\n";	break;
+		{
+			sm_oOutData << L"<li class=\"error\">" << sFunction << L"() :" << sError << L"</li>\n";
+		}break;
+		case EL_WARNING:	sm_oOutData << L"<li class=\"warning\">" << sFunction << L"() :" << sError << L"</li>\n";	break;
+		case EL_DEBUG:		sm_oOutData << L"<li class=\"debug\">" << sFunction << L"() :" << sError << L"</li>\n";	break;
+		case EL_CALL:		sm_oOutData << L"<li class=\"call\">" << sFunction << L"() :" << sError << L"</li>\n";	break;
+		case EL_EVENT:		sm_oOutData << L"<li class=\"event\">" << sFunction << L"() :" << sError << L"</li>\n";	break;
 		}
 		sm_oOutData.flush();
 

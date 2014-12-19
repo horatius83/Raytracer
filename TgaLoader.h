@@ -41,24 +41,24 @@ namespace Graphics
 		{
 			m_oData.Deallocate();
 		};
-		bool bCanLoadImage(const std::wstring& sFilename);
+		bool CanLoadImage(const std::wstring& sFilename);
 		inline void DeleteImage()
 		{
 			m_oData.Deallocate();
 		}
-		inline unsigned int uiGetWidth(){return m_oData.uiGetWidth();};
-		inline unsigned int uiGetHeight(){return m_oData.uiGetHeight()};
-		inline unsigned int uiGetBpp(){return 32;};
+		inline unsigned int GetWidth(){return m_oData.GetWidth();};
+		inline unsigned int GetHeight(){return m_oData.GetHeight()};
+		inline unsigned int GetBpp(){return 32;};
 	private:
-		TGA_ENCODING eReadHeader(const Utility::Array<unsigned char>& oData,TgaHeader& stHeader); 
-		bool bCanLoadRawIndexed(const Utility::Array<unsigned char>& oData,const TgaHeader& stHeader);
-		bool bCanLoadRawRgb(const Utility::Array<unsigned char>& oData,const TgaHeader& stHeader);
-		bool bCanLoadIndexedRleData(const Utility::Array<unsigned char>& oData,const TgaHeader& stHeader);
+		TGA_ENCODING ReadHeader(const Utility::Array<unsigned char>& oData,TgaHeader& stHeader); 
+		bool CanLoadRawIndexed(const Utility::Array<unsigned char>& oData,const TgaHeader& stHeader);
+		bool CanLoadRawRgb(const Utility::Array<unsigned char>& oData,const TgaHeader& stHeader);
+		bool CanLoadIndexedRleData(const Utility::Array<unsigned char>& oData,const TgaHeader& stHeader);
 
 		Utility::Array2D< Graphics::Color<unsigned char> >	m_oData;
 	};
 
-	TGA_ENCODING TgaLoader::eReadHeader(const Utility::Array<unsigned char> &oData,TgaHeader& stHeader)
+	TGA_ENCODING TgaLoader::ReadHeader(const Utility::Array<unsigned char> &oData,TgaHeader& stHeader)
 	{
 		if(oData.uiGetLength())
 		{
@@ -109,7 +109,7 @@ namespace Graphics
 		}
 	};
 
-	bool TgaLoader::bCanLoadRawIndexed(const Utility::Array<unsigned char>& oData,const TgaHeader& stHeader)
+	bool TgaLoader::CanLoadRawIndexed(const Utility::Array<unsigned char>& oData,const TgaHeader& stHeader)
 	{
 		using namespace Utility;
 		using namespace Graphics;
@@ -143,7 +143,7 @@ namespace Graphics
 			m_oData[uiIndex]=oPalette[oData[ui]];
 	}
 
-	bool TgaLoader::bCanLoadRawRgb(const Utility::Array<unsigned char>& oData,const TgaHeader& stHeader)
+	bool TgaLoader::CanLoadRawRgb(const Utility::Array<unsigned char>& oData,const TgaHeader& stHeader)
 	{
 		unsigned int uiStartingIndex=stHeader.m_ucIdFieldSize+18;
 		unsigned int uiEndingIndex=stHeader.m_ucIdFieldSize+18+stHeader.m_usWidth*stHeader.m_usHeight;
@@ -184,11 +184,11 @@ namespace Graphics
 		return false;
 	}
 
-	bool TgaLoader::bCanLoadIndexedRleData(const Utility::Array<unsigned char>& oData,const TgaHeader& stHeader)
+	bool TgaLoader::CanLoadIndexedRleData(const Utility::Array<unsigned char>& oData,const TgaHeader& stHeader)
 	{
 	}
 
-	bool TgaLoader::bCanLoadImage(const std::wstring &sFilename)
+	bool TgaLoader::CanLoadImage(const std::wstring &sFilename)
 	{
 		using namespace std;	
 		using namespace Utility;
@@ -208,10 +208,10 @@ namespace Graphics
 			
 			if(oTempData.uiGetSize())
 			{
-				inData.read((char*)oTempData.pGetArray(),uiFileSize);
+				inData.read((char*)oTempData.GetArray(),uiFileSize);
 				inData.close();
 				TgaHeader stHeader;
-				TGA_ENCODING eEncoding = eReadHeader(oTempData,stHeader);
+				TGA_ENCODING eEncoding = ReadHeader(oTempData,stHeader);
 				unsigned int uiLength = stHeader.m_usWidth*stHeader.m_usHeight*(stHeader.m_ucBits/8);
 				//Check filesize versus header information
 				//if(uiLength+18+oData[0]+768>uiFileSize)
@@ -231,7 +231,7 @@ namespace Graphics
 							return false;
 						}
 						//Load Image Data
-						if(bCanLoadRawIndexed(oTempData,stHeader))
+						if(CanLoadRawIndexed(oTempData,stHeader))
 							break;
 						else
 						{
@@ -247,7 +247,7 @@ namespace Graphics
 							return false;
 						}
 						//Load Data
-						if(bCanLoadRawRgb(oTempData,stHeader))
+						if(CanLoadRawRgb(oTempData,stHeader))
 							break;
 						else
 						{

@@ -30,53 +30,53 @@ namespace Math
 		inline void SetRandomSeed()
 		{
 			time_t seconds = time(0);
-			m_uiSeed = uiGetRandom(unsigned int(seconds));
+			m_uiSeed = GetRandom(unsigned int(seconds));
 		};
 		//Generate a random number off of the current seed
-		inline unsigned int uiGetRandom()
+		inline unsigned int GetRandom()
 		{
-			return uiGetRandom(m_uiSeed);
+			return GetRandom(m_uiSeed);
 		}
 		//Generate a random number off of this particular seed
-		inline unsigned int uiGetRandom(unsigned int uiSeed)
+		inline unsigned int GetRandom(unsigned int uiSeed)
 		{
 			return (uiSeed*1664525)+1013904223;
 		};
 		//Generate a random number between these two values [uiRangeMin,uiRangeMax)
-		inline unsigned int uiGetRandom(unsigned int uiRangeMin,unsigned int uiRangeMax)
+		inline unsigned int GetRandom(unsigned int uiRangeMin,unsigned int uiRangeMax)
 		{
-			return uiRangeMin+(uiGetRandom()%uiRangeMax);
+			return uiRangeMin+(GetRandom()%uiRangeMax);
 		};
 		//Generate a new random number and set the current seed equal to it
-		inline unsigned int uiGetNextRandom()
+		inline unsigned int GetNextRandom()
 		{
-			m_uiSeed = uiGetRandom(m_uiSeed);
+			m_uiSeed = GetRandom(m_uiSeed);
 			return m_uiSeed;
 		};
 		//Generate a new random number, set the seed to that and clamp it to this range
-		inline unsigned int uiGetNextRandom(unsigned int uiRangeMin,unsigned int uiRangeMax)
+		inline unsigned int GetNextRandom(unsigned int uiRangeMin,unsigned int uiRangeMax)
 		{
-			return uiRangeMin+(uiGetNextRandom()%uiRangeMax);
+			return uiRangeMin+(GetNextRandom()%uiRangeMax);
 		}
 		//Generate a random float between 0 and 1 and don't update the seed
 		inline float fGetRandom()
 		{
-			return float(uiGetRandom())/FLOAT_UINT_MAX;
+			return float(GetRandom())/FLOAT_UINT_MAX;
 		}
 		//Generate a random float between 0 and 1
 		inline float fGetNextRandom()
 		{
-			return float(uiGetNextRandom())/FLOAT_UINT_MAX;
+			return float(GetNextRandom())/FLOAT_UINT_MAX;
 		}
 		//Generate a random double between 0 and 1 and don't update the seed
 		inline double dGetRandom()
 		{
-			return double(uiGetRandom())/DOUBLE_UINT_MAX;
+			return double(GetRandom())/DOUBLE_UINT_MAX;
 		}
 		//Generate a random double between 0 and 1
 		inline double dGetNextRandom()
 		{
-			return double(uiGetNextRandom())/DOUBLE_UINT_MAX;
+			return double(GetNextRandom())/DOUBLE_UINT_MAX;
 		}
 	private:
 		unsigned int m_uiSeed;

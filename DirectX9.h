@@ -10,7 +10,7 @@
 
 namespace System
 {	
-	struct STextureVertex
+	struct TextureVertex
 	{
 		float x,y,z;
 		float tu,tv;
@@ -25,11 +25,8 @@ namespace System
 		{
 			Shutdown();
 		}
-		bool bCanInitialize(HWND hWnd,unsigned int uiWidth,unsigned int uiHeight,bool bWindowed=true);
-		
-		/*Graphics::Color<float>* pLockDisplay();
-		unsigned int uiGetDisplayPitch();*/
-		bool bLockDisplay(Utility::Array2D< Graphics::Color<float> >& tDisplay);
+		bool CanInitialize(HWND hWnd,unsigned int uiWidth,unsigned int uiHeight,bool bWindowed=true);
+		bool LockDisplay(Utility::Array2D< Graphics::Color<float> >& tDisplay);
 		void UnlockDisplay();
 
 		void Render();
@@ -37,7 +34,6 @@ namespace System
 	private:
 		bool CanInitVertexBuffer();
 		bool CanInitTexture();
-		//void Draw();
 
 		LPDIRECT3D9             m_pD3D;
 		LPDIRECT3DDEVICE9       m_pDevice; 

@@ -18,24 +18,24 @@ namespace Graphics
 	{
 	public:
 		//Check file extension and take appropriate action, then pass off to specialized function
-		bool bCanLoad(const std::wstring& sFilename,RayTracer::CPolygonList& oPolyList);
+		bool CanLoad(const std::wstring& sFilename,RayTracer::CPolygonList& oPolyList);
 	private:
 		//Function for loading .obj files
-		bool bCanLoadObjFile(RayTracer::CPolygonList& oPolyList);
+		bool CanLoadObjFile(RayTracer::CPolygonList& oPolyList);
 		std::ifstream m_inData;
 	};
 
-	bool MeshLoader::bCanLoad(const std::wstring& sFilename,RayTracer::CPolygonList& oPolyList)
+	bool MeshLoader::CanLoad(const std::wstring& sFilename,RayTracer::CPolygonList& oPolyList)
 	{
 		if(sFilename.find(L".obj")!=std::string::npos)
 		{
 			m_inData.open(sFilename.c_str());
-			return bCanLoadObjFile(oPolyList);
+			return CanLoadObjFile(oPolyList);
 		}
 		return false;
 	}
 
-	bool MeshLoader::bCanLoadObjFile(RayTracer::CPolygonList& oPolyList)
+	bool MeshLoader::CanLoadObjFile(RayTracer::CPolygonList& oPolyList)
 	{
 		using Utility::AlignedArray;
 		using Math::Vector;
@@ -152,7 +152,7 @@ namespace Graphics
 			}
 			m_inData.close();
 
-			return oPolyList.bCanInitialize(oIndices,oVertices,oNormals,oTexCoords);
+			return oPolyList.CanInitialize(oIndices,oVertices,oNormals,oTexCoords);
 		}
 		else
 			return false;

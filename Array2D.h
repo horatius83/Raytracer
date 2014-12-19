@@ -7,18 +7,18 @@ namespace Utility
 	class Array2D
 	{
 	public:
-		Array2D() : m_pArray(0),m_uiSize(0),m_uiWidth(0) {};
-		Array2D(unsigned int uiWidth,unsigned int uiHeight)
+		Array2D() : m_pArray(0), m_uiSize(0), m_uiWidth(0) {};
+		Array2D(unsigned int uiWidth, unsigned int uiHeight)
 		{
-			Allocate(uiWidth,uiHeight);
+			Allocate(uiWidth, uiHeight);
 		}
 		Array2D(Array2D<T>& tArray) : m_pArray(0), m_uiSize(0), m_uiWidth(0)
 		{
-			Allocate(tArray.uiGetWidth(),tArray.uiGetHeight());
-			for(unsigned int ui=0;ui<m_uiSize;ui++)
+			Allocate(tArray.GetWidth(), tArray.GetHeight());
+			for (unsigned int ui = 0; ui < m_uiSize; ui++)
 				m_pArray[ui] = tArray[ui];
 		}
-		~Array2D(){Deallocate();};
+		~Array2D(){ Deallocate(); };
 
 		inline void Set(Array2D<T>& tArray)
 		{
@@ -29,13 +29,13 @@ namespace Utility
 			tArray.Dereference();
 		}
 
-		inline void Set(T* pArray,unsigned int uiWidth,unsigned int uiSize)
+		inline void Set(T* pArray, unsigned int uiWidth, unsigned int uiSize)
 		{
 #ifdef _DEBUG
-			if(!pArray)
+			if (!pArray)
 				throw "Array2D::Set(T* pArray,unsigned int uiWidth,unsigned int uiSize): invalid array";
 
-			if(uiSize < 1 || uiWidth < 1)
+			if (uiSize < 1 || uiWidth < 1)
 				throw "Array2D::Set(T* pArray,unsigned int uiWidth,unsigned int uiSize): invalid array size";
 #endif
 			m_pArray = pArray;
@@ -45,25 +45,25 @@ namespace Utility
 
 		inline void Copy(Array2D<T>& tArray)
 		{
-			if(tArray.uiGetSize()!=uiGetSize())
+			if (tArray.uiGetSize() != uiGetSize())
 			{
 				Deallocate();
-				Allocate(tArray.uiGetWidth(),tArray.uiGetHeight());
+				Allocate(tArray.GetWidth(), tArray.GetHeight());
 				m_uiSize = tArray.uiGetSize();
 			}
-			for(unsigned int ui=0;ui<tArray.uiGetSize();++ui)
-				m_pArray[ui]=tArray[ui];
+			for (unsigned int ui = 0; ui < tArray.uiGetSize(); ++ui)
+				m_pArray[ui] = tArray[ui];
 		}
 		inline void Dereference()
 		{
-			m_pArray=0;
-			m_uiSize=0;
-			m_uiWidth=0;
+			m_pArray = 0;
+			m_uiSize = 0;
+			m_uiWidth = 0;
 		}
 
-		inline void Allocate(unsigned int uiWidth,unsigned int uiHeight)
+		inline void Allocate(unsigned int uiWidth, unsigned int uiHeight)
 		{
-			if(uiWidth*uiHeight)
+			if (uiWidth*uiHeight)
 			{
 				Deallocate();
 				m_uiSize = uiWidth*uiHeight;
@@ -76,22 +76,22 @@ namespace Utility
 		{
 			return m_pArray[ui];
 		}
-		inline unsigned int uiGetSize(){return m_uiSize;};
-		inline unsigned int uiGetHeight()
+		inline unsigned int uiGetSize(){ return m_uiSize; };
+		inline unsigned int GetHeight()
 		{
-			return (m_uiWidth) ?  m_uiSize/m_uiWidth : 0;
+			return (m_uiWidth) ? m_uiSize / m_uiWidth : 0;
 		};
-		inline unsigned int uiGetWidth(){return m_uiWidth;};
-		inline T*			pGetArray(){return m_pArray;};
+		inline unsigned int GetWidth(){ return m_uiWidth; };
+		inline T*			GetArray(){ return m_pArray; };
 		inline void Deallocate()
 		{
-			if(m_pArray)
+			if (m_pArray)
 			{
-				delete [] m_pArray;
+				delete[] m_pArray;
 				//_mm_free(m_pArray);
 				m_pArray = 0;
 				m_uiSize = 0;
-				m_uiWidth=0;
+				m_uiWidth = 0;
 			}
 		}
 	private:

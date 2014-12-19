@@ -10,7 +10,7 @@ namespace Graphics
 	class Sierpinski
 	{
 	public:
-		inline bool bGenerate(ColorType* pArray,const ColorType& oColor,unsigned int uiWidth,unsigned int uiLength,
+		inline bool CanGenerate(ColorType* pArray,const ColorType& oColor,unsigned int uiWidth,unsigned int uiLength,
 			unsigned int uiIterations)
 		{
 

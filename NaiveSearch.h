@@ -36,8 +36,8 @@ namespace RayTracer
 	{
 	public:
 		void GetPrimaryIntersection(Vector128& oResults,PolyIndices& oPolyIndices,
-			PacketVector& oOrigin,PacketVector& oDirection);
-		void GetShadowIntersection(Vector128& oResults,PacketVector& oOrigin,PacketVector& oDirection);
+			PacketVector& oOrigin,PacketVector& Direction);
+		void GetShadowIntersection(Vector128& oResults,PacketVector& oOrigin,PacketVector& Direction);
 
 		CPolygonList	m_oPolyList;
 	};
@@ -45,14 +45,14 @@ namespace RayTracer
 	inline void NaiveSearch::GetPrimaryIntersection(Vector128& oResults,
 		PolyIndices& oPolyIndices,
 		PacketVector& oOrigin,
-		PacketVector& oDirection)
+		PacketVector& Direction)
 	{
 		Math::Vector128 oTempResults;
 		oResults.m_sseData = _mm_set_ps1(FLT_MAX);
 
 		for(unsigned int ui=0;ui<m_oPolyList.uiGetSize();++ui)
 		{
-			m_oPolyList.GetIntersection(oTempResults,ui,oOrigin,oDirection);
+			m_oPolyList.GetIntersection(oTempResults,ui,oOrigin,Direction);
 			
 			for(unsigned int ui=0;ui<4;++ui)
 				oPolyIndices.m_uiPoly[ui] = oTempResults.m_fData[ui] < oResults.m_fData[ui] ? ui : oPolyIndices.m_uiPoly[ui];
@@ -61,7 +61,7 @@ namespace RayTracer
 	}
 
 	inline void NaiveSearch::GetShadowIntersection(Math::Vector128& oResults,Math::PacketVector& oOrigin,
-		Math::PacketVector& oDirection)
+		Math::PacketVector& Direction)
 	{
 		
 	}
