@@ -29,7 +29,7 @@ namespace RayTracer
 		void	GetPlaneNormal(Math::Vector& oNormal, unsigned int uiPolygonIndex);
 
 		//The number of polygons, not the number of vertices
-		inline unsigned		uiGetSize(){ return m_oPlanes.GetSize(); };
+		inline unsigned		GetSize(){ return m_oPlanes.GetSize(); };
 	private:
 		bool DoesCross(float fPointU, float fPointV, float fVectorU, float fVectorV);
 
@@ -319,7 +319,6 @@ namespace RayTracer
 
 	inline bool PolygonList::DoesCross(float fPointU, float fPointV, float fVectorU, float fVectorV)
 	{
-		//if(oVector.GetY())
 		if (fVectorV)
 		{
 			float t = -fPointV / fVectorV;

@@ -24,7 +24,7 @@ namespace RayTracer
 			m_oColor = oColor;
 		};
 		inline Math::Vector& GetDirection(){return m_Direction;};
-		inline Graphics::Color<float>& oGetColor(){return m_oColor;};
+		inline Graphics::Color<float>& GetColor(){return m_oColor;};
 	private:
 		Math::Vector				m_Direction;
 		Graphics::Color<float>	m_oColor;

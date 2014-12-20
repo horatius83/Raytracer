@@ -117,7 +117,7 @@ namespace RayTracer
 		//create two nodes after this one
 	}
 
-	void BihTree::GetPrimaryIntersection(Vector128& oResults,RayTracer::PolyIndices& oPolyIndices,
+	void BihTree::GetPrimaryIntersection(Vector128& oResults, RayTracer::PolyIndices& oPolyIndices,
 		PacketVector& oOrigin,PacketVector& Direction)
 	{
 		oResults.m_sseData = _mm_set_ps1(FLT_MAX);
@@ -133,9 +133,9 @@ namespace RayTracer
 			polyInt.m_sseData = _mm_set_ps1(FLT_MAX);
 			//Math::Vector128 intsBox;
 
-			for(unsigned int ui=0;ui<NaiveSearch::m_oPolyList.uiGetSize();++ui)
+			for(unsigned int ui=0;ui<NaiveSearch::PolygonList.GetSize();++ui)
 			{
-				NaiveSearch::m_oPolyList.GetIntersection(polyInt,ui,oOrigin,Direction);
+				NaiveSearch::PolygonList.GetIntersection(polyInt,ui,oOrigin,Direction);
 				oResults.m_sseData = _mm_min_ps(oResults.m_sseData,polyInt.m_sseData);
 			}
 		}
@@ -147,14 +147,14 @@ namespace RayTracer
 		Math::Vector128 min,max,vecA,vecB,vecC,polyMax,polyMin;
 		min.m_sseData = _mm_set_ps1(0.0f);
 		max.m_sseData = _mm_set_ps1(0.0f);
-		m_oVectors.resize(NaiveSearch::m_oPolyList.uiGetSize());
+		m_oVectors.resize(NaiveSearch::PolygonList.GetSize());
 		//Masks for A>(B>C) (B>C)>A and A>C
 
-		for(unsigned int ui=0;ui<NaiveSearch::m_oPolyList.uiGetSize();++ui)
+		for(unsigned int ui=0;ui<NaiveSearch::PolygonList.GetSize();++ui)
 		{
-			vecA.m_sseData = m_oPolyList.GetVertex(ui,0).GetVector();
-			vecB.m_sseData = m_oPolyList.GetVertex(ui,1).GetVector();
-			vecC.m_sseData = m_oPolyList.GetVertex(ui,2).GetVector();
+			vecA.m_sseData = PolygonList.GetVertex(ui,0).GetVector();
+			vecB.m_sseData = PolygonList.GetVertex(ui,1).GetVector();
+			vecC.m_sseData = PolygonList.GetVertex(ui,2).GetVector();
 
 			//Calculate bounding box for the polygon
 			//Greatest vertex

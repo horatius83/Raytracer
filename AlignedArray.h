@@ -33,12 +33,12 @@ namespace Utility
 
 		inline void Copy(AlignedArray<T>& tArray)
 		{
-			if (tArray.uiGetSize() != uiGetSize())
+			if (tArray.GetSize() != GetSize())
 			{
 				Deallocate();
-				Allocate(tArray.uiGetSize());
+				Allocate(tArray.GetSize());
 			}
-			for (unsigned int ui = 0; ui < tArray.uiGetSize(); ++ui)
+			for (unsigned int ui = 0; ui < tArray.GetSize(); ++ui)
 				m_pArray[ui] = tArray[ui];
 		}
 

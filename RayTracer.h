@@ -18,13 +18,12 @@ namespace RayTracer
 	{
 	public:
 		bool CanInitialize(unsigned int uiWidth, unsigned int uiHeight, BihTree* pSearch);
-
 		void Render(Utility::Array2D< Graphics::Color<float> >& displayBuffer);
 
-		Camera		m_oCamera;
-		PointLight	m_oLight;
+		Camera		Camera;
+		PointLight	Light;
 	private:
-		float	GetPrimaryIntersection(const Math::Vector& oOrigin, const Math::Vector& Direction);
+		float GetPrimaryIntersection(const Math::Vector& oOrigin, const Math::Vector& Direction);
 		float GetViewPlaneDistance();
 
 		unsigned int	m_uiWidth;
@@ -73,17 +72,15 @@ namespace RayTracer
 	};
 
 #ifdef SSEMADNESS
-
-	//inline void RayTracer::Render(Graphics::Color<float>* pData)
 	inline void RayTracer::Render(Utility::Array2D< Graphics::Color<float> >& displayBuffer)
 	{
 		Math::PacketVector oIntersection;
 		Math::PacketVector oOrigin;
-		oOrigin.Set(m_oCamera.GetOrigin().GetX(), m_oCamera.GetOrigin().GetY(), m_oCamera.GetOrigin().fGetZ());
+		oOrigin.Set(Camera.GetOrigin().GetX(), Camera.GetOrigin().GetY(), Camera.GetOrigin().fGetZ());
 		Math::Vector128 oResults, oDot;
 		PolyIndices oIndices;
 
-		//TEMPORARY
+		//Zero out memory
 		for (unsigned int ui = 0; ui < displayBuffer.GetWidth()*m_uiHeight; ++ui)
 			displayBuffer[ui].Set(Graphics::Color<float>(0.0f, 0.0f, 0.0f));
 
@@ -97,7 +94,6 @@ namespace RayTracer
 				m_pSearch->GetPrimaryIntersection(oResults, oIndices, oOrigin, m_oRays[uiRayIndex]);
 				if (_mm_movemask_ps(_mm_cmplt_ps(oResults.m_sseData, _mm_set_ps1(FLT_MAX))))
 				{
-					//oIntersection.Set(m_oRays[uiRayIndex]);
 					oIntersection.Mul(oResults.m_sseData, m_oRays[uiRayIndex]);
 					oIntersection.Add(oOrigin);
 
@@ -106,23 +102,23 @@ namespace RayTracer
 					Math::Vector oNormal[4];
 					for (unsigned int ui = 0; ui < 4; ++ui)
 					{
-						m_pSearch->m_oPolyList.GetPlaneNormal(oNormal[ui], oIndices.m_uiPoly[ui]);
+						m_pSearch->PolygonList.GetPlaneNormal(oNormal[ui], oIndices.m_uiPoly[ui]);
 					}
-					oPacketNormal.m_sseX = _mm_set_ps(oNormal[0].m_fX, oNormal[1].m_fX, oNormal[2].m_fX, oNormal[3].m_fX);
-					oPacketNormal.m_sseY = _mm_set_ps(oNormal[0].m_fY, oNormal[1].m_fY, oNormal[2].m_fY, oNormal[3].m_fY);
-					oPacketNormal.m_sseZ = _mm_set_ps(oNormal[0].m_fZ, oNormal[1].m_fZ, oNormal[2].m_fZ, oNormal[3].m_fZ);
+					oPacketNormal.m_sseX = _mm_set_ps(oNormal[0].GetX(), oNormal[1].GetX(), oNormal[2].GetX(), oNormal[3].GetX());
+					oPacketNormal.m_sseY = _mm_set_ps(oNormal[0].GetY(), oNormal[1].GetY(), oNormal[2].GetY(), oNormal[3].GetY());
+					oPacketNormal.m_sseZ = _mm_set_ps(oNormal[0].fGetZ(), oNormal[1].fGetZ(), oNormal[2].fGetZ(), oNormal[3].fGetZ());
 
 					//Calculate dot product of light and surface normal
-					m_oLight.GetLightDotProduct(oDot, oIntersection, oPacketNormal);
+					Light.GetLightDotProduct(oDot, oIntersection, oPacketNormal);
 
 					//Make sure it's greater than 0
 					oDot.m_sseData = _mm_and_ps(oDot.m_sseData, _mm_cmpgt_ps(oDot.m_sseData, _mm_set_ps1(0.0f)));
 
 					unsigned int uiIndex = uiy*displayBuffer.GetWidth() + uix;
-					displayBuffer[uiIndex].Mul(oDot.m_fData[0], m_oLight.oGetColor());
-					displayBuffer[uiIndex + 1].Mul(oDot.m_fData[1], m_oLight.oGetColor());
-					displayBuffer[uiIndex + displayBuffer.GetWidth()].Mul(oDot.m_fData[2], m_oLight.oGetColor());
-					displayBuffer[uiIndex + displayBuffer.GetWidth() + 1].Mul(oDot.m_fData[3], m_oLight.oGetColor());
+					displayBuffer[uiIndex].Mul(oDot.m_fData[0], Light.GetColor());
+					displayBuffer[uiIndex + 1].Mul(oDot.m_fData[1], Light.GetColor());
+					displayBuffer[uiIndex + displayBuffer.GetWidth()].Mul(oDot.m_fData[2], Light.GetColor());
+					displayBuffer[uiIndex + displayBuffer.GetWidth() + 1].Mul(oDot.m_fData[3], Light.GetColor());
 				}
 			}
 		}
@@ -142,22 +138,22 @@ namespace RayTracer
 		{
 			for(unsigned int uix=0;uix<m_uiWidth;++uix)
 			{
-				float fDistance = fGetPrimaryIntersection(oOrigin,m_oCamera.GetDirection());
+				float fDistance = fGetPrimaryIntersection(oOrigin,Camera.GetDirection());
 
 				if(fDistance > 0.0f)
 				{
 					//Get dot product of the surface normal and the light ray
 					Vector oIntersection;
-					oIntersection.Mul(fDistance,m_oCamera.GetDirection());
+					oIntersection.Mul(fDistance,Camera.GetDirection());
 					oIntersection.Add(oOrigin,oIntersection);
 					Vector oLightRay;
 					oLight.GetLightRay(oLightRay,oIntersection);					
 					float Dot = -oLightRay.Dot(m_oPoly.oGetPlaneNormal());
 
 					TColor<float> oPixel;
-					oPixel.SetRed(oLight.oGetColor().GetRed()*Dot);
-					oPixel.SetGreen(oLight.oGetColor().GetGreen()*Dot);
-					oPixel.SetBlue(oLight.oGetColor().GetBlue()*Dot);
+					oPixel.SetRed(oLight.GetColor().GetRed()*Dot);
+					oPixel.SetGreen(oLight.GetColor().GetGreen()*Dot);
+					oPixel.SetBlue(oLight.GetColor().GetBlue()*Dot);
 					pData[uiy*m_uiWidth+uix]=oPixel;
 				}
 				else
@@ -169,12 +165,11 @@ namespace RayTracer
 		}
 	};
 #endif
-
 	inline float RayTracer::GetViewPlaneDistance()
 	{
 		const float pi = 3.141592654f;
 		float fScrnX = float(m_uiWidth) / 2.0f;
-		float fThetaX = (pi - m_oCamera.GetViewAngle()) / 2.0f;
+		float fThetaX = (pi - Camera.GetViewAngle()) / 2.0f;
 		return fScrnX*fThetaX;
 	}
 }

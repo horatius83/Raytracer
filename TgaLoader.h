@@ -206,7 +206,7 @@ namespace Graphics
 			inData.seekg(0,ios_base::beg);
 			Array<unsigned char>	oTempData(uiFileSize);
 			
-			if(oTempData.uiGetSize())
+			if(oTempData.GetSize())
 			{
 				inData.read((char*)oTempData.GetArray(),uiFileSize);
 				inData.close();

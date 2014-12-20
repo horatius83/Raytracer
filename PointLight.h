@@ -36,12 +36,12 @@ namespace RayTracer
 		};
 
 		
-		inline Math::Vector&		oGetPosition()
+		inline Math::Vector&		GetPosition()
 		{
 			return m_oPosition;
 		};
 
-		inline Graphics::Color<float>&	oGetColor()
+		inline Graphics::Color<float>&	GetColor()
 		{
 			return m_oColor;
 		};

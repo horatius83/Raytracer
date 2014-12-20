@@ -32,12 +32,12 @@ LRESULT WINAPI MsgProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 
 		switch (wParam)
 		{
-		case VK_UP:		g_RayTracer.m_oCamera.Move(Math::Vector(0.0f, 0.0f, 0.5f));	break;
-		case VK_DOWN:	g_RayTracer.m_oCamera.Move(Math::Vector(0.0f, 0.0f, -0.5f));	break;
-		case VK_RIGHT:	g_RayTracer.m_oCamera.Move(Math::Vector(0.5f, 0.0f, 0.0f));	break;
-		case VK_LEFT:	g_RayTracer.m_oCamera.Move(Math::Vector(-0.5f, 0.0f, 0.0f));	break;
-		case 0x5A:		g_RayTracer.m_oCamera.Move(Math::Vector(0.0f, -0.5f, 0.0f));	break;
-		case 0x41:		g_RayTracer.m_oCamera.Move(Math::Vector(0.0f, 0.5f, 0.0f));	break;
+		case VK_UP:		g_RayTracer.Camera.Move(Math::Vector(0.0f, 0.0f, 0.5f));	break;
+		case VK_DOWN:	g_RayTracer.Camera.Move(Math::Vector(0.0f, 0.0f, -0.5f));	break;
+		case VK_RIGHT:	g_RayTracer.Camera.Move(Math::Vector(0.5f, 0.0f, 0.0f));	break;
+		case VK_LEFT:	g_RayTracer.Camera.Move(Math::Vector(-0.5f, 0.0f, 0.0f));	break;
+		case 0x5A:		g_RayTracer.Camera.Move(Math::Vector(0.0f, -0.5f, 0.0f));	break;
+		case 0x41:		g_RayTracer.Camera.Move(Math::Vector(0.0f, 0.5f, 0.0f));	break;
 		case VK_ESCAPE: PostQuitMessage(0); break;
 		};
 	}break;
@@ -93,14 +93,14 @@ INT WINAPI WinMain(HINSTANCE hInst, HINSTANCE, LPSTR, INT)
 	Utility::BlockText<float> oText;
 	oText.SetColor(Graphics::Color<float>(0.5f, 1.0f, 0.5f));
 
-	g_RayTracer.m_oLight.Set(Math::Vector(0.0f, 0.0f, 0.0f), Graphics::Color<float>(1.0f, 1.0f, 1.0f));
+	g_RayTracer.Light.Set(Math::Vector(10.0f, 10.0f, 0.0f), Graphics::Color<float>(1.0f, 0.0f, 1.0f));
 
-	g_RayTracer.m_oCamera.CanSet(Math::Vector(-8.0f, 8.0f, -10.0f), Math::Vector(0.0f, 0.0f, 1.0f),
+	g_RayTracer.Camera.CanSet(Math::Vector(-8.0f, 8.0f, -10.0f), Math::Vector(0.0f, 0.0f, 1.0f),
 		Math::Vector(0.0f, 1.0f, 0.0f));
 
 	Graphics::MeshLoader oLoader;
 
-	if (!oLoader.CanLoad(L"box2.obj", g_Search.m_oPolyList))
+	if (!oLoader.CanLoad(L"box2.obj", g_Search.PolygonList))
 		err(L"Could not load box2.obj,is it in the directory?", EL_WARNING);
 
 	if (!g_Search.CanInitialize())
@@ -135,7 +135,7 @@ INT WINAPI WinMain(HINSTANCE hInst, HINSTANCE, LPSTR, INT)
 					static float f = 0.0f;
 					f += 0.01f;
 
-					g_RayTracer.m_oLight.Move(Math::Vector(0.0f, cos(f)*5.0f, sin(f)*5.0f));
+					g_RayTracer.Light.Move(Math::Vector(0.0f, cos(f)*5.0f, sin(f)*5.0f));
 
 					if (g_DirectX.LockDisplay(displayBuffer))
 					{
@@ -144,10 +144,10 @@ INT WINAPI WinMain(HINSTANCE hInst, HINSTANCE, LPSTR, INT)
 						oText.Print(sTimer, 0, 0, displayBuffer);
 						std::ostringstream locationString;
 
-						sTimer = "Location " + g_RayTracer.m_oCamera.GetOrigin().toString();
+						sTimer = "Location " + g_RayTracer.Camera.GetOrigin().toString();
 						oText.Print(sTimer, 0, 8, displayBuffer);
 
-						sTimer = "Light " + g_RayTracer.m_oCamera.GetDirection().toString();
+						sTimer = "Light " + g_RayTracer.Light.GetPosition().toString();
 						oText.Print(sTimer, 0, 16, displayBuffer);
 
 						g_DirectX.UnlockDisplay();

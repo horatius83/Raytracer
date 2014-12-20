@@ -45,13 +45,13 @@ namespace Utility
 
 		inline void Copy(Array2D<T>& tArray)
 		{
-			if (tArray.uiGetSize() != uiGetSize())
+			if (tArray.GetSize() != GetSize())
 			{
 				Deallocate();
 				Allocate(tArray.GetWidth(), tArray.GetHeight());
-				m_uiSize = tArray.uiGetSize();
+				m_uiSize = tArray.GetSize();
 			}
-			for (unsigned int ui = 0; ui < tArray.uiGetSize(); ++ui)
+			for (unsigned int ui = 0; ui < tArray.GetSize(); ++ui)
 				m_pArray[ui] = tArray[ui];
 		}
 		inline void Dereference()
@@ -76,7 +76,7 @@ namespace Utility
 		{
 			return m_pArray[ui];
 		}
-		inline unsigned int uiGetSize(){ return m_uiSize; };
+		inline unsigned int GetSize(){ return m_uiSize; };
 		inline unsigned int GetHeight()
 		{
 			return (m_uiWidth) ? m_uiSize / m_uiWidth : 0;
