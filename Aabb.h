@@ -96,10 +96,10 @@ namespace Math
 		Math::PacketVector left, right;
 		left.m_sseX = _mm_sub_ps(_mm_set_ps1(m_oLeftPoint.GetX()), oOrigin.m_sseX);
 		left.m_sseY = _mm_sub_ps(_mm_set_ps1(m_oLeftPoint.GetY()), oOrigin.m_sseY);
-		left.m_sseZ = _mm_sub_ps(_mm_set_ps1(m_oLeftPoint.fGetZ()), oOrigin.m_sseZ);
+		left.m_sseZ = _mm_sub_ps(_mm_set_ps1(m_oLeftPoint.GetZ()), oOrigin.m_sseZ);
 		right.m_sseX = _mm_sub_ps(_mm_set_ps1(m_oRightPoint.GetX()), oOrigin.m_sseX);
 		right.m_sseY = _mm_sub_ps(_mm_set_ps1(m_oRightPoint.GetY()), oOrigin.m_sseY);
-		right.m_sseZ = _mm_sub_ps(_mm_set_ps1(m_oRightPoint.fGetZ()), oOrigin.m_sseZ);
+		right.m_sseZ = _mm_sub_ps(_mm_set_ps1(m_oRightPoint.GetZ()), oOrigin.m_sseZ);
 
 		__m128 c2[3], d2[3], cmp, sub, zero;
 		zero = _mm_set_ps1(0.0f);
@@ -112,7 +112,7 @@ namespace Math
 			Math::Vector128 ltX, ltY, ltZ;
 			ltX.m_sseData = _mm_cmplt_ps(oOrigin.m_sseX, _mm_set_ps1(m_oLeftPoint.GetX()));
 			ltY.m_sseData = _mm_cmplt_ps(oOrigin.m_sseY, _mm_set_ps1(m_oLeftPoint.GetY()));
-			ltZ.m_sseData = _mm_cmplt_ps(oOrigin.m_sseZ, _mm_set_ps1(m_oLeftPoint.fGetZ()));
+			ltZ.m_sseData = _mm_cmplt_ps(oOrigin.m_sseZ, _mm_set_ps1(m_oLeftPoint.GetZ()));
 
 			if (_mm_movemask_ps(ltX.m_sseData) == 0xF || _mm_movemask_ps(ltY.m_sseData) == 0xF ||
 				_mm_movemask_ps(ltZ.m_sseData) == 0xF)
@@ -156,7 +156,7 @@ namespace Math
 			cmp = _mm_cmplt_ps(oOrigin.m_sseY, _mm_set_ps1(m_oLeftPoint.GetY()));
 			if (_mm_movemask_ps(cmp) == 0xF)
 				return;
-			cmp = _mm_cmpgt_ps(oOrigin.m_sseZ, _mm_set_ps1(m_oRightPoint.fGetZ()));
+			cmp = _mm_cmpgt_ps(oOrigin.m_sseZ, _mm_set_ps1(m_oRightPoint.GetZ()));
 			if (_mm_movemask_ps(cmp) == 0xF)
 				return;
 
@@ -203,7 +203,7 @@ namespace Math
 			cmp = _mm_cmpgt_ps(oOrigin.m_sseY, _mm_set_ps1(m_oRightPoint.GetY()));
 			if (_mm_movemask_ps(cmp) == 0xF)
 				return;
-			cmp = _mm_cmpgt_ps(oOrigin.m_sseZ, _mm_set_ps1(m_oRightPoint.fGetZ()));
+			cmp = _mm_cmpgt_ps(oOrigin.m_sseZ, _mm_set_ps1(m_oRightPoint.GetZ()));
 			if (_mm_movemask_ps(cmp) == 0xF)
 				return;
 
@@ -249,7 +249,7 @@ namespace Math
 			cmp = _mm_cmplt_ps(oOrigin.m_sseY, _mm_set_ps1(m_oLeftPoint.GetY()));
 			if (_mm_movemask_ps(cmp) == 0xF)
 				return;
-			cmp = _mm_cmpgt_ps(oOrigin.m_sseZ, _mm_set_ps1(m_oRightPoint.fGetZ()));
+			cmp = _mm_cmpgt_ps(oOrigin.m_sseZ, _mm_set_ps1(m_oRightPoint.GetZ()));
 			if (_mm_movemask_ps(cmp) == 0xF)
 				return;
 
@@ -295,7 +295,7 @@ namespace Math
 			cmp = _mm_cmpgt_ps(oOrigin.m_sseY, _mm_set_ps1(m_oRightPoint.GetY()));
 			if (_mm_movemask_ps(cmp) == 0xF)
 				return;
-			cmp = _mm_cmpgt_ps(oOrigin.m_sseZ, _mm_set_ps1(m_oRightPoint.fGetZ()));
+			cmp = _mm_cmpgt_ps(oOrigin.m_sseZ, _mm_set_ps1(m_oRightPoint.GetZ()));
 			if (_mm_movemask_ps(cmp) == 0xF)
 				return;
 
@@ -419,16 +419,16 @@ namespace Math
 
 			if (Direction.GetX()*a.GetY() - Direction.GetY()*b.GetX() < 0)
 				return false;
-			if (Direction.GetX()*a.fGetZ() - Direction.fGetZ()*b.GetX() < 0)
+			if (Direction.GetX()*a.GetZ() - Direction.GetZ()*b.GetX() < 0)
 				return false;
-			if (Direction.GetY()*a.fGetZ() - Direction.fGetZ()*b.GetY() < 0)
+			if (Direction.GetY()*a.GetZ() - Direction.GetZ()*b.GetY() < 0)
 				return false;
 
 			if (Direction.GetY()*a.GetX() - Direction.GetX()*b.GetY() <= 0)
 				return false;
-			if (Direction.fGetZ()*a.GetX() - Direction.GetX()*b.fGetZ() <= 0)
+			if (Direction.GetZ()*a.GetX() - Direction.GetX()*b.GetZ() <= 0)
 				return false;
-			if (Direction.fGetZ()*a.GetY() - Direction.GetY()*b.fGetZ() <= 0)
+			if (Direction.GetZ()*a.GetY() - Direction.GetY()*b.GetZ() <= 0)
 				return false;
 		}break;
 		case MMP:
@@ -441,7 +441,7 @@ namespace Math
 				return false;
 			if (oOrigin.GetY() < m_oLeftPoint.GetY())
 				return false;
-			if (oOrigin.fGetZ() > m_oRightPoint.fGetZ())
+			if (oOrigin.GetZ() > m_oRightPoint.GetZ())
 				return false;
 			/*
 			float xa = b->x0 - r->x;
@@ -466,7 +466,7 @@ namespace Math
 			c.m_fData[2] = Direction.GetY();
 			d.m_sseData = _mm_set_ps1(a.m_fData[2]);
 			d.m_fData[0] = a.m_fData[1];
-			e.m_sseData = _mm_set_ps1(Direction.fGetZ());
+			e.m_sseData = _mm_set_ps1(Direction.GetZ());
 			e.m_fData[0] = Direction.GetY();
 			f.m_fData[0] = b.m_fData[0];
 			f.m_fData[1] = a.m_fData[0];
@@ -491,7 +491,7 @@ namespace Math
 			c.m_fData[2] = Direction.GetY();
 			d.m_sseData = _mm_set_ps1(b.m_fData[2]);
 			d.m_fData[0] = b.m_fData[1];
-			e.m_sseData = _mm_set_ps1(Direction.fGetZ());
+			e.m_sseData = _mm_set_ps1(Direction.GetZ());
 			e.m_fData[0] = Direction.GetY();
 			f.m_fData[0] = a.m_fData[0];
 			f.m_fData[1] = b.m_fData[0];
@@ -514,7 +514,7 @@ namespace Math
 				return false;
 			if (oOrigin.GetY() > m_oRightPoint.GetY())
 				return false;
-			if (oOrigin.fGetZ() < m_oLeftPoint.fGetZ())
+			if (oOrigin.GetZ() < m_oLeftPoint.GetZ())
 				return false;
 			/*
 		float xa = b->x0 - r->x;
@@ -539,7 +539,7 @@ namespace Math
 			d.m_fData[0] = a.m_fData[1];
 			d.m_fData[1] = a.m_fData[2];
 			d.m_fData[2] = b.m_fData[2];
-			e.m_sseData = _mm_set_ps1(Direction.fGetZ());
+			e.m_sseData = _mm_set_ps1(Direction.GetZ());
 			e.m_fData[0] = Direction.GetY();
 			f.m_fData[0] = a.m_fData[0];
 			f.m_fData[1] = b.m_fData[0];
@@ -564,7 +564,7 @@ namespace Math
 			d.m_fData[0] = b.m_fData[1];
 			d.m_fData[1] = b.m_fData[2];
 			d.m_fData[2] = a.m_fData[2];
-			e.m_sseData = _mm_set_ps1(Direction.fGetZ());
+			e.m_sseData = _mm_set_ps1(Direction.GetZ());
 			e.m_fData[0] = Direction.GetY();
 			f.m_fData[0] = b.m_fData[0];
 			f.m_fData[1] = a.m_fData[0];
@@ -586,7 +586,7 @@ namespace Math
 				return false;
 			if (oOrigin.GetY() > m_oRightPoint.GetY())
 				return false;
-			if (oOrigin.fGetZ() > m_oRightPoint.fGetZ())
+			if (oOrigin.GetZ() > m_oRightPoint.GetZ())
 				return false;
 			/*
 						float xa = b->x0 - r->x;
@@ -612,16 +612,16 @@ namespace Math
 			  return true;*/
 			if (Direction.GetX()*a.GetY() - Direction.GetY()*a.GetX() < 0)
 				return false;
-			if (Direction.GetX()*a.fGetZ() - Direction.fGetZ()*a.GetX() < 0)
+			if (Direction.GetX()*a.GetZ() - Direction.GetZ()*a.GetX() < 0)
 				return false;
-			if (Direction.GetY()*b.fGetZ() - Direction.fGetZ()*a.GetY() < 0)
+			if (Direction.GetY()*b.GetZ() - Direction.GetZ()*a.GetY() < 0)
 				return false;
 
 			if (Direction.GetX()*b.GetY() - Direction.GetY()*b.GetX() > 0)
 				return false;
-			if (Direction.GetX()*b.fGetZ() - Direction.fGetZ()*b.GetX() > 0)
+			if (Direction.GetX()*b.GetZ() - Direction.GetZ()*b.GetX() > 0)
 				return false;
-			if (Direction.GetY()*a.fGetZ() - Direction.fGetZ()*b.GetY() > 0)
+			if (Direction.GetY()*a.GetZ() - Direction.GetZ()*b.GetY() > 0)
 				return false;
 		}break;
 		case PMM:
@@ -634,7 +634,7 @@ namespace Math
 				return false;
 			if (oOrigin.GetY() < m_oLeftPoint.GetY())
 				return false;
-			if (oOrigin.fGetZ() < m_oLeftPoint.fGetZ())
+			if (oOrigin.GetZ() < m_oLeftPoint.GetZ())
 				return false;
 			/*
 		float xa = b->x0 - r->x;
@@ -664,14 +664,14 @@ namespace Math
 				return false;
 			if (Direction.GetX()*a.GetY() - Direction.GetY()*a.GetX() > 0)
 				return false;
-			if (Direction.GetX()*a.fGetZ() - Direction.fGetZ()*a.GetX() > 0)
+			if (Direction.GetX()*a.GetZ() - Direction.GetZ()*a.GetX() > 0)
 				return false;
 
-			if (Direction.GetX()*b.fGetZ() - Direction.fGetZ()*b.GetX() < 0)
+			if (Direction.GetX()*b.GetZ() - Direction.GetZ()*b.GetX() < 0)
 				return false;
-			if (Direction.GetY()*a.fGetZ() - Direction.fGetZ()*b.GetY() < 0)
+			if (Direction.GetY()*a.GetZ() - Direction.GetZ()*b.GetY() < 0)
 				return false;
-			if (Direction.GetY()*b.fGetZ() - Direction.fGetZ()*a.GetY() > 0)
+			if (Direction.GetY()*b.GetZ() - Direction.GetZ()*a.GetY() > 0)
 				return false;
 		}break;
 		case PMP:
@@ -680,7 +680,7 @@ namespace Math
 				return false;
 			if (oOrigin.GetY() < m_oLeftPoint.GetY())
 				return false;
-			if (oOrigin.fGetZ() > m_oRightPoint.fGetZ())
+			if (oOrigin.GetZ() > m_oRightPoint.GetZ())
 				return false;
 
 			Vector a;
@@ -692,14 +692,14 @@ namespace Math
 				return false;
 			if (Direction.GetX()*a.GetY() - Direction.GetY()*a.GetX() > 0)
 				return false;
-			if (Direction.GetX()*a.fGetZ() - Direction.fGetZ()*b.GetX() > 0)
+			if (Direction.GetX()*a.GetZ() - Direction.GetZ()*b.GetX() > 0)
 				return false;
 
-			if (Direction.GetX()*b.fGetZ() - Direction.fGetZ()*a.GetX() < 0)
+			if (Direction.GetX()*b.GetZ() - Direction.GetZ()*a.GetX() < 0)
 				return false;
-			if (Direction.GetY()*a.fGetZ() - Direction.fGetZ()*a.GetY() < 0)
+			if (Direction.GetY()*a.GetZ() - Direction.GetZ()*a.GetY() < 0)
 				return false;
-			if (Direction.GetY()*b.fGetZ() - Direction.fGetZ()*b.GetY() > 0)
+			if (Direction.GetY()*b.GetZ() - Direction.GetZ()*b.GetY() > 0)
 				return false;
 		}break;
 		case PPM:
@@ -727,7 +727,7 @@ namespace Math
 				return false;
 			if (oOrigin.GetY() > m_oRightPoint.GetY())
 				return false;
-			if (oOrigin.fGetZ() < m_oLeftPoint.fGetZ())
+			if (oOrigin.GetZ() < m_oLeftPoint.GetZ())
 				return false;
 
 			Vector a;
@@ -739,14 +739,14 @@ namespace Math
 				return false;
 			if (Direction.GetX()*a.GetY() - Direction.GetY()*b.GetX() > 0)
 				return false;
-			if (Direction.GetX()*a.fGetZ() - Direction.fGetZ()*a.GetX() > 0)
+			if (Direction.GetX()*a.GetZ() - Direction.GetZ()*a.GetX() > 0)
 				return false;
 
-			if (Direction.GetX()*b.fGetZ() - Direction.fGetZ()*b.GetX() < 0)
+			if (Direction.GetX()*b.GetZ() - Direction.GetZ()*b.GetX() < 0)
 				return false;
-			if (Direction.GetY()*b.fGetZ() - Direction.fGetZ()*b.GetY() < 0)
+			if (Direction.GetY()*b.GetZ() - Direction.GetZ()*b.GetY() < 0)
 				return false;
-			if (Direction.GetY()*a.fGetZ() - Direction.fGetZ()*a.GetY() > 0)
+			if (Direction.GetY()*a.GetZ() - Direction.GetZ()*a.GetY() > 0)
 				return false;
 		}break;
 		case PPP:
@@ -764,16 +764,16 @@ namespace Math
 
 			if (Direction.GetX()*a.GetY() - Direction.GetY()*b.GetX() > 0)
 				return false;
-			if (Direction.GetY()*a.fGetZ() - Direction.fGetZ()*b.GetY() > 0)
+			if (Direction.GetY()*a.GetZ() - Direction.GetZ()*b.GetY() > 0)
 				return false;
-			if (Direction.GetX()*a.fGetZ() - Direction.fGetZ()*b.GetX() > 0)
+			if (Direction.GetX()*a.GetZ() - Direction.GetZ()*b.GetX() > 0)
 				return false;
 
 			if (Direction.GetX()*b.GetY() - Direction.GetY()*a.GetX() < 0)
 				return false;
-			if (Direction.GetX()*b.fGetZ() - Direction.fGetZ()*a.GetX() < 0)
+			if (Direction.GetX()*b.GetZ() - Direction.GetZ()*a.GetX() < 0)
 				return false;
-			if (Direction.GetY()*b.fGetZ() - Direction.fGetZ()*a.GetY() < 0)
+			if (Direction.GetY()*b.GetZ() - Direction.GetZ()*a.GetY() < 0)
 				return false;
 
 		}break;
