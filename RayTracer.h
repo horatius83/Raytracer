@@ -76,7 +76,7 @@ namespace RayTracer
 	{
 		Math::PacketVector oIntersection;
 		Math::PacketVector oOrigin;
-		oOrigin.Set(Camera.GetOrigin().GetX(), Camera.GetOrigin().GetY(), Camera.GetOrigin().fGetZ());
+		oOrigin.Set(Camera.GetOrigin().GetX(), Camera.GetOrigin().GetY(), Camera.GetOrigin().GetZ());
 		Math::Vector128 oResults, oDot;
 		PolyIndices oIndices;
 
@@ -91,6 +91,7 @@ namespace RayTracer
 				unsigned int ui = uiy*m_uiWidth + uix;
 				unsigned int uiRayIndex = ((uiy / 2)*(m_uiWidth / 2)) + (uix / 2);
 
+				// Get intersection
 				m_pSearch->GetPrimaryIntersection(oResults, oIndices, oOrigin, m_oRays[uiRayIndex]);
 				if (_mm_movemask_ps(_mm_cmplt_ps(oResults.m_sseData, _mm_set_ps1(FLT_MAX))))
 				{
@@ -106,7 +107,7 @@ namespace RayTracer
 					}
 					oPacketNormal.m_sseX = _mm_set_ps(oNormal[0].GetX(), oNormal[1].GetX(), oNormal[2].GetX(), oNormal[3].GetX());
 					oPacketNormal.m_sseY = _mm_set_ps(oNormal[0].GetY(), oNormal[1].GetY(), oNormal[2].GetY(), oNormal[3].GetY());
-					oPacketNormal.m_sseZ = _mm_set_ps(oNormal[0].fGetZ(), oNormal[1].fGetZ(), oNormal[2].fGetZ(), oNormal[3].fGetZ());
+					oPacketNormal.m_sseZ = _mm_set_ps(oNormal[0].GetZ(), oNormal[1].GetZ(), oNormal[2].GetZ(), oNormal[3].GetZ());
 
 					//Calculate dot product of light and surface normal
 					Light.GetLightDotProduct(oDot, oIntersection, oPacketNormal);

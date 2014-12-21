@@ -75,7 +75,7 @@ namespace RayTracer
 		{
 		case XAxis:	BuildTree(0,(unsigned int)m_oVectors.size(),m_oScene.GetRightPoint().GetX()-m_oScene.GetLeftPoint().GetX(),XAxis,uiIndex); break;
 		case YAxis: BuildTree(0,(unsigned int)m_oVectors.size(),m_oScene.GetRightPoint().GetY()-m_oScene.GetLeftPoint().GetY(),YAxis,uiIndex); break;
-		case ZAxis: BuildTree(0,(unsigned int)m_oVectors.size(),m_oScene.GetRightPoint().fGetZ()-m_oScene.GetLeftPoint().fGetZ(),ZAxis,uiIndex); break;
+		case ZAxis: BuildTree(0,(unsigned int)m_oVectors.size(),m_oScene.GetRightPoint().GetZ()-m_oScene.GetLeftPoint().GetZ(),ZAxis,uiIndex); break;
 		default:	throw "BihTree::BuildTree() : Invalid argument \"Leaf\""; break;
 		}
 	}

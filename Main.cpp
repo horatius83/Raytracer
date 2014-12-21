@@ -91,7 +91,7 @@ INT WINAPI WinMain(HINSTANCE hInst, HINSTANCE, LPSTR, INT)
 
 	//El cheapo text generation
 	Utility::BlockText<float> oText;
-	oText.SetColor(Graphics::Color<float>(0.5f, 1.0f, 0.5f));
+	oText.SetColor(Graphics::Color<float>(1.0f, 1.0f, 1.0f));
 
 	g_RayTracer.Light.Set(Math::Vector(10.0f, 10.0f, 0.0f), Graphics::Color<float>(1.0f, 0.0f, 1.0f));
 

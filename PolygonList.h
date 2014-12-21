@@ -100,66 +100,66 @@ namespace RayTracer
 			{
 				//Get vectors from A->B B->C and C->A
 				//Vector A->B (1-0)
-				oVectorU[0].m_sseData = _mm_set_ps1(m_oVertices[m_oIndices[uiVertex + 1]].fGetZ() -
-					m_oVertices[m_oIndices[uiVertex]].fGetZ());
+				oVectorU[0].m_sseData = _mm_set_ps1(m_oVertices[m_oIndices[uiVertex + 1]].GetZ() -
+					m_oVertices[m_oIndices[uiVertex]].GetZ());
 				oVectorV[0].m_sseData = _mm_set_ps1(m_oVertices[m_oIndices[uiVertex + 1]].GetY() -
 					m_oVertices[m_oIndices[uiVertex]].GetY());
 
 				//Translate point A according to intersection
-				oPointU[0].m_sseData = _mm_sub_ps(_mm_set_ps1(m_oVertices[m_oIndices[uiVertex]].fGetZ()), oIntersection.m_sseZ);
+				oPointU[0].m_sseData = _mm_sub_ps(_mm_set_ps1(m_oVertices[m_oIndices[uiVertex]].GetZ()), oIntersection.m_sseZ);
 				oPointV[0].m_sseData = _mm_sub_ps(_mm_set_ps1(m_oVertices[m_oIndices[uiVertex]].GetY()), oIntersection.m_sseY);
 
 				//Vector B->C (2-1)
-				oVectorU[1].m_sseData = _mm_set_ps1(m_oVertices[m_oIndices[uiVertex + 2]].fGetZ() -
-					m_oVertices[m_oIndices[uiVertex + 1]].fGetZ());
+				oVectorU[1].m_sseData = _mm_set_ps1(m_oVertices[m_oIndices[uiVertex + 2]].GetZ() -
+					m_oVertices[m_oIndices[uiVertex + 1]].GetZ());
 				oVectorV[1].m_sseData = _mm_set_ps1(m_oVertices[m_oIndices[uiVertex + 2]].GetY() -
 					m_oVertices[m_oIndices[uiVertex + 1]].GetY());
 
 				//Translate point B according to intersection
-				oPointU[1].m_sseData = _mm_sub_ps(_mm_set_ps1(m_oVertices[m_oIndices[uiVertex + 1]].fGetZ()), oIntersection.m_sseZ);
+				oPointU[1].m_sseData = _mm_sub_ps(_mm_set_ps1(m_oVertices[m_oIndices[uiVertex + 1]].GetZ()), oIntersection.m_sseZ);
 				oPointV[1].m_sseData = _mm_sub_ps(_mm_set_ps1(m_oVertices[m_oIndices[uiVertex + 1]].GetY()), oIntersection.m_sseY);
 
 				//Vector C->A [0-2]
-				oVectorU[2].m_sseData = _mm_set_ps1(m_oVertices[m_oIndices[uiVertex]].fGetZ() -
-					m_oVertices[m_oIndices[uiVertex + 2]].fGetZ());
+				oVectorU[2].m_sseData = _mm_set_ps1(m_oVertices[m_oIndices[uiVertex]].GetZ() -
+					m_oVertices[m_oIndices[uiVertex + 2]].GetZ());
 				oVectorV[2].m_sseData = _mm_set_ps1(m_oVertices[m_oIndices[uiVertex]].GetY() -
 					m_oVertices[m_oIndices[uiVertex + 2]].GetY());
 
 				//Translate point C according to intersection
-				oPointU[2].m_sseData = _mm_sub_ps(_mm_set_ps1(m_oVertices[m_oIndices[uiVertex + 2]].fGetZ()), oIntersection.m_sseZ);
+				oPointU[2].m_sseData = _mm_sub_ps(_mm_set_ps1(m_oVertices[m_oIndices[uiVertex + 2]].GetZ()), oIntersection.m_sseZ);
 				oPointV[2].m_sseData = _mm_sub_ps(_mm_set_ps1(m_oVertices[m_oIndices[uiVertex + 2]].GetY()), oIntersection.m_sseY);
 			}break;
 			case YDOMINANT:	//x and z
 			{
 				//Get vectors from A->B B->C and C->A
 				//Vector A->B (1-0)
-				oVectorU[0].m_sseData = _mm_set_ps1(m_oVertices[m_oIndices[uiVertex + 1]].fGetZ() -
-					m_oVertices[m_oIndices[uiVertex + 0]].fGetZ());
+				oVectorU[0].m_sseData = _mm_set_ps1(m_oVertices[m_oIndices[uiVertex + 1]].GetZ() -
+					m_oVertices[m_oIndices[uiVertex + 0]].GetZ());
 				oVectorV[0].m_sseData = _mm_set_ps1(m_oVertices[m_oIndices[uiVertex + 1]].GetX() -
 					m_oVertices[m_oIndices[uiVertex + 0]].GetX());
 
 				//Translate point A according to intersection
-				oPointU[0].m_sseData = _mm_sub_ps(_mm_set_ps1(m_oVertices[m_oIndices[uiVertex + 0]].fGetZ()), oIntersection.m_sseZ);
+				oPointU[0].m_sseData = _mm_sub_ps(_mm_set_ps1(m_oVertices[m_oIndices[uiVertex + 0]].GetZ()), oIntersection.m_sseZ);
 				oPointV[0].m_sseData = _mm_sub_ps(_mm_set_ps1(m_oVertices[m_oIndices[uiVertex + 0]].GetX()), oIntersection.m_sseX);
 
 				//Vector B->C (2-1)
-				oVectorU[1].m_sseData = _mm_set_ps1(m_oVertices[m_oIndices[uiVertex + 2]].fGetZ() -
-					m_oVertices[m_oIndices[uiVertex + 1]].fGetZ());
+				oVectorU[1].m_sseData = _mm_set_ps1(m_oVertices[m_oIndices[uiVertex + 2]].GetZ() -
+					m_oVertices[m_oIndices[uiVertex + 1]].GetZ());
 				oVectorV[1].m_sseData = _mm_set_ps1(m_oVertices[m_oIndices[uiVertex + 2]].GetX() -
 					m_oVertices[m_oIndices[uiVertex + 1]].GetX());
 
 				//Translate point B according to intersection
-				oPointU[1].m_sseData = _mm_sub_ps(_mm_set_ps1(m_oVertices[m_oIndices[uiVertex + 1]].fGetZ()), oIntersection.m_sseZ);
+				oPointU[1].m_sseData = _mm_sub_ps(_mm_set_ps1(m_oVertices[m_oIndices[uiVertex + 1]].GetZ()), oIntersection.m_sseZ);
 				oPointV[1].m_sseData = _mm_sub_ps(_mm_set_ps1(m_oVertices[m_oIndices[uiVertex + 1]].GetX()), oIntersection.m_sseX);
 
 				//Vector C->A [0-2]
-				oVectorU[2].m_sseData = _mm_set_ps1(m_oVertices[m_oIndices[uiVertex + 0]].fGetZ() -
-					m_oVertices[m_oIndices[uiVertex + 2]].fGetZ());
+				oVectorU[2].m_sseData = _mm_set_ps1(m_oVertices[m_oIndices[uiVertex + 0]].GetZ() -
+					m_oVertices[m_oIndices[uiVertex + 2]].GetZ());
 				oVectorV[2].m_sseData = _mm_set_ps1(m_oVertices[m_oIndices[uiVertex + 0]].GetX() -
 					m_oVertices[m_oIndices[uiVertex + 2]].GetX());
 
 				//Translate point C according to intersection
-				oPointU[2].m_sseData = _mm_sub_ps(_mm_set_ps1(m_oVertices[m_oIndices[uiVertex + 2]].fGetZ()), oIntersection.m_sseZ);
+				oPointU[2].m_sseData = _mm_sub_ps(_mm_set_ps1(m_oVertices[m_oIndices[uiVertex + 2]].GetZ()), oIntersection.m_sseZ);
 				oPointV[2].m_sseData = _mm_sub_ps(_mm_set_ps1(m_oVertices[m_oIndices[uiVertex + 2]].GetX()), oIntersection.m_sseX);
 			}break;
 			case ZDOMINANT: //x and y
@@ -275,25 +275,25 @@ namespace RayTracer
 			case XDOMINANT:	//z and y coords
 			{
 				//1rst intersection (A->B)
-				if (DoesCross(oPoint1.fGetZ(), oPoint1.GetY(), oVec1.fGetZ(), oVec1.GetY()))
+				if (DoesCross(oPoint1.GetZ(), oPoint1.GetY(), oVec1.GetZ(), oVec1.GetY()))
 					++iCrosses;
 				//2nd intersection (B->C)
-				if (DoesCross(oPoint2.fGetZ(), oPoint2.GetY(), oVec2.fGetZ(), oVec2.GetY()))
+				if (DoesCross(oPoint2.GetZ(), oPoint2.GetY(), oVec2.GetZ(), oVec2.GetY()))
 					++iCrosses;
 				//3rd intersection (C->A)
-				if (DoesCross(oPoint3.fGetZ(), oPoint3.GetY(), oVec3.fGetZ(), oVec3.GetY()))
+				if (DoesCross(oPoint3.GetZ(), oPoint3.GetY(), oVec3.GetZ(), oVec3.GetY()))
 					++iCrosses;
 			}break;
 			case YDOMINANT: //x and z coords
 			{
 				//1rst intersection (A->B)
-				if (DoesCross(oPoint1.GetX(), oPoint1.fGetZ(), oVec1.GetX(), oVec1.fGetZ()))
+				if (DoesCross(oPoint1.GetX(), oPoint1.GetZ(), oVec1.GetX(), oVec1.GetZ()))
 					++iCrosses;
 				//2nd intersection (B->C)
-				if (DoesCross(oPoint2.GetX(), oPoint2.fGetZ(), oVec2.GetX(), oVec2.fGetZ()))
+				if (DoesCross(oPoint2.GetX(), oPoint2.GetZ(), oVec2.GetX(), oVec2.GetZ()))
 					++iCrosses;
 				//3rd intersection (C->A)
-				if (DoesCross(oPoint3.GetX(), oPoint3.fGetZ(), oVec3.GetX(), oVec3.fGetZ()))
+				if (DoesCross(oPoint3.GetX(), oPoint3.GetZ(), oVec3.GetX(), oVec3.GetZ()))
 					++iCrosses;
 			}break;
 			case ZDOMINANT:	//x and y coords
@@ -371,18 +371,18 @@ namespace RayTracer
 
 				planeNormal.Mul(planeNormal, planeNormal);
 				m_oAxis[ui] = ZDOMINANT;
-				if (planeNormal.GetX() > planeNormal.GetY() && planeNormal.GetX() > planeNormal.fGetZ())
+				if (planeNormal.GetX() > planeNormal.GetY() && planeNormal.GetX() > planeNormal.GetZ())
 					m_oAxis[ui] = XDOMINANT;
-				if (planeNormal.GetY() > planeNormal.GetX() && planeNormal.GetY() > planeNormal.fGetZ())
+				if (planeNormal.GetY() > planeNormal.GetX() && planeNormal.GetY() > planeNormal.GetZ())
 					m_oAxis[ui] = YDOMINANT;
 				/*
 				if(planeNormal.GetX()>planeNormal.GetY())
 				{
-				if(planeNormal.GetY()>planeNormal.fGetZ())
+				if(planeNormal.GetY()>planeNormal.GetZ())
 				m_oAxis[ui]=XDOMINANT;		//x dominant axis
 				else
 				{
-				if(planeNormal.GetX()>planeNormal.fGetZ())
+				if(planeNormal.GetX()>planeNormal.GetZ())
 				m_oAxis[ui]=XDOMINANT;	//x dominant axis
 				else
 				m_oAxis[ui]=ZDOMINANT;	//z dominant axis
@@ -390,11 +390,11 @@ namespace RayTracer
 				}
 				else	//y>x
 				{
-				if(planeNormal.GetX()>planeNormal.fGetZ())
+				if(planeNormal.GetX()>planeNormal.GetZ())
 				m_oAxis[ui]=YDOMINANT;		//y dominant axis
 				else
 				{
-				if(planeNormal.GetY()>planeNormal.fGetZ())
+				if(planeNormal.GetY()>planeNormal.GetZ())
 				m_oAxis[ui]=YDOMINANT;	//y dominant axis
 				else
 				m_oAxis[ui]=ZDOMINANT;	//z dominant axis

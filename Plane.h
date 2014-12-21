@@ -44,18 +44,18 @@ namespace Math
 	{
 		m_fa = oNormal.GetX();
 		m_fb = oNormal.GetY();
-		m_fc = oNormal.fGetZ();
-		m_fd = -m_fa*oPoint.GetX() - m_fb*oPoint.GetY() -m_fc*oPoint.fGetZ(); 
+		m_fc = oNormal.GetZ();
+		m_fd = -m_fa*oPoint.GetX() - m_fb*oPoint.GetY() -m_fc*oPoint.GetZ(); 
 	}
 
 	inline float Plane::GetIntersection(const Math::Vector &oOrigin, const Math::Vector &Direction)
 	{
 		//HADDPS __m128 _mm_hadd_ps(__m128 a, __m128 b)
-		float fDirectionDot = m_fa*Direction.GetX()+m_fb*Direction.GetY()+m_fc*Direction.fGetZ();
+		float fDirectionDot = m_fa*Direction.GetX()+m_fb*Direction.GetY()+m_fc*Direction.GetZ();
 		
 		if(fDirectionDot)
 		{
-			float fOriginDot = m_fa*oOrigin.GetX()+m_fb*oOrigin.GetY()+m_fc*oOrigin.fGetZ();
+			float fOriginDot = m_fa*oOrigin.GetX()+m_fb*oOrigin.GetY()+m_fc*oOrigin.GetZ();
 			float fDistance = -(fOriginDot+m_fd)/fDirectionDot;
 			if(fDistance>0.0f)
 				return fDistance;

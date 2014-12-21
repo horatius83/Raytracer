@@ -22,14 +22,14 @@ namespace Math
 		//Accessors
 		inline float	GetX()	const { return m_fX; };
 		inline float	GetY()	const { return m_fY; };
-		inline float	fGetZ()	const { return m_fZ; };
+		inline float	GetZ()	const { return m_fZ; };
 		inline float	GetW()	const { return m_fW; };
 
 		inline __m128	GetVector() const{ return m_sseData; };
 
 		std::string toString() {
 			std::ostringstream ss;
-			ss << "(" << GetX() << ", " << GetY() << ", " << fGetZ() << ")";
+			ss << "(" << GetX() << ", " << GetY() << ", " << GetZ() << ")";
 			return ss.str();
 		}
 
@@ -60,6 +60,8 @@ namespace Math
 		void			operator-=(const Vector& oVec);
 		void			operator*=(float f);
 		bool			operator!=(const Vector& oVec);
+
+		const __m128 GetSse() { return m_sseData; }
 	private:
 		union
 		{
@@ -142,7 +144,7 @@ namespace Math
 	{
 		__m128 sseData = m_sseData;
 		m_sseData = _mm_mul_ps(m_sseData, m_sseData);
-		float fResult = GetX() + GetY() + fGetZ();	//dunno how to do this in SSE
+		float fResult = GetX() + GetY() + GetZ();	//dunno how to do this in SSE
 		__m128 sseSum = _mm_set_ps1(fResult);
 
 		__m128 sseHalf = _mm_set_ps1(0.5f);
@@ -172,7 +174,7 @@ namespace Math
 	{
 		Vector oVec;
 		oVec.Mul(m_sseData, m_sseData);
-		oVec.Set(_mm_set_ps1(oVec.GetX() + oVec.GetY() + oVec.fGetZ()));
+		oVec.Set(_mm_set_ps1(oVec.GetX() + oVec.GetY() + oVec.GetZ()));
 		oVec.Set(_mm_sqrt_ps(oVec.GetVector()));
 		return oVec.GetX();
 	}
@@ -180,7 +182,7 @@ namespace Math
 	inline float Vector::Dot(const Vector& oVec) const
 	{
 		Vector oTemp(_mm_mul_ps(m_sseData, oVec.m_sseData));
-		return oTemp.GetX() + oTemp.GetY() + oTemp.fGetZ();
+		return oTemp.GetX() + oTemp.GetY() + oTemp.GetZ();
 	}
 
 	inline void Vector::Set(const Vector& oVec)

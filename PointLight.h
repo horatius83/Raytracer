@@ -60,7 +60,7 @@ namespace RayTracer
 			
 			oLightRay.m_sseX = _mm_sub_ps(_mm_set_ps1(m_oPosition.GetX()),oPosition.m_sseX);
 			oLightRay.m_sseY = _mm_sub_ps(_mm_set_ps1(m_oPosition.GetY()),oPosition.m_sseY);
-			oLightRay.m_sseZ = _mm_sub_ps(_mm_set_ps1(m_oPosition.fGetZ()),oPosition.m_sseZ);
+			oLightRay.m_sseZ = _mm_sub_ps(_mm_set_ps1(m_oPosition.GetZ()),oPosition.m_sseZ);
 			
 			oLightRay.Normalize();
 			oLightRay.Mul(_mm_set_ps1(-1.0f));
