@@ -5,10 +5,13 @@
 //http://msdn.microsoft.com/library/default.asp?url=/library/en-us/vclang/html/vcrefcomparisonsforthestreamingsimdextensions.asp
 #include <xmmintrin.h>
 #include <emmintrin.h>
+#include "Vector.h"
 
 namespace Math
 {
 	const float g_fMaxRay=10000.0f;
+
+	class Vector;
 
 	struct Vector128
 	{
@@ -50,21 +53,29 @@ namespace Math
 		inline void Normalize()
 		{
 			__m128 sseSum;
-			DotProduct(sseSum,*this);
+			DotProduct(sseSum, *this);
 
 			__m128 sseHalf = _mm_set_ps1(0.5f);
 			__m128 sseThree = _mm_set_ps1(3.0f);
 
 			__m128 ssePreRecipricol = _mm_rsqrt_ps(sseSum);
-			__m128 sseMuls = _mm_mul_ps(_mm_mul_ps(sseSum,ssePreRecipricol),ssePreRecipricol);
-			__m128 sseReciprocol = _mm_mul_ps(_mm_mul_ps(sseHalf,ssePreRecipricol),
-				_mm_sub_ps(sseThree,sseMuls));
-			
-			m_sseX = _mm_mul_ps(m_sseX,sseReciprocol);
-			m_sseY = _mm_mul_ps(m_sseY,sseReciprocol);
-			m_sseZ = _mm_mul_ps(m_sseZ,sseReciprocol);
+			__m128 sseMuls = _mm_mul_ps(_mm_mul_ps(sseSum, ssePreRecipricol), ssePreRecipricol);
+			__m128 sseReciprocol = _mm_mul_ps(_mm_mul_ps(sseHalf, ssePreRecipricol),
+				_mm_sub_ps(sseThree, sseMuls));
+
+			m_sseX = _mm_mul_ps(m_sseX, sseReciprocol);
+			m_sseY = _mm_mul_ps(m_sseY, sseReciprocol);
+			m_sseZ = _mm_mul_ps(m_sseZ, sseReciprocol);
 		}
-		inline void DotProduct(__m128& sseAnswer,PacketVector& oVector)
+
+		inline Vector DotProduct(const PacketVector& vector) {
+			__m128 answer;
+			DotProduct(answer, vector);
+			auto vAnswer = Vector(answer);
+			return vAnswer;
+		}
+
+		inline void DotProduct(__m128& sseAnswer,const PacketVector& oVector)
 		{
 			__m128 sseV1 = _mm_mul_ps(m_sseX,oVector.m_sseX);
 			__m128 sseV2 = _mm_mul_ps(m_sseY,oVector.m_sseY);

@@ -5,7 +5,6 @@
 #include <xmmintrin.h>
 #include <fvec.h>
 #include <sstream>
-#include "PacketVector.h"
 
 namespace Math
 {
@@ -24,6 +23,10 @@ namespace Math
 		inline float	GetY()	const { return m_fY; };
 		inline float	GetZ()	const { return m_fZ; };
 		inline float	GetW()	const { return m_fW; };
+
+		inline float Get(int i) const {
+			return m_fVector[i];
+		}
 
 		inline __m128	GetVector() const{ return m_sseData; };
 
@@ -52,6 +55,7 @@ namespace Math
 		void			Mul(const Vector& oVecA, const Vector& oVecB);
 		void			Add(const Vector& oVecA, const Vector& oVecB);
 		void			Sub(const Vector& oVecA, const Vector& oVecB);
+		Vector			Sub(const Vector& a);
 		void			Cross(const Vector& oVecA, const Vector& oVecB);
 		void			Normal(const Vector& oVec);
 		void			LessThan(Vector& oAns, const Vector& oVec);
@@ -84,12 +88,18 @@ namespace Math
 
 	inline bool Vector::operator !=(const Vector& oVec)
 	{
-		Math::Vector128 oAns;
+		/*Math::Vector128 oAns;
 		oAns.m_sseData = _mm_sub_ps(m_sseData, oVec.m_sseData);
 		if (oAns.m_fData[0] + oAns.m_fData[1] + oAns.m_fData[2] + oAns.m_fData[3])
 			return true;
 		else
-			return false;
+			return false;*/
+		for (auto i = 0; i < 4; ++i) {
+			if (oVec.Get(i) != Get(i)) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 	inline void Vector::operator -=(const Vector& oVec)
@@ -110,6 +120,11 @@ namespace Math
 	inline void Vector::Sub(const Math::Vector &oVecA, const Math::Vector &oVecB)
 	{
 		m_sseData = _mm_sub_ps(oVecA.m_sseData, oVecB.m_sseData);
+	}
+
+	inline Vector Vector::Sub(const Math::Vector& a) {
+		auto x = _mm_sub_ps(m_sseData, a.m_sseData);
+		return Vector(x);
 	}
 
 	inline void Vector::Add(const Math::Vector &oVecA, const Math::Vector &oVecB)

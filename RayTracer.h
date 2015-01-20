@@ -29,6 +29,8 @@ namespace RayTracer
 		unsigned int	m_uiWidth;
 		unsigned int	m_uiHeight;
 
+		float m_maxDistance;
+
 		BihTree* m_pSearch;
 		Utility::AlignedArray< Math::PacketVector> m_oRays;
 	};
@@ -42,6 +44,8 @@ namespace RayTracer
 		m_pSearch = pSearch;
 		m_uiWidth = uiWidth;
 		m_uiHeight = uiHeight;
+
+		m_maxDistance = 100.0f;
 
 		//Because rays are in packets of 2x2 due to SSE optimizations, we allocate width/2 and height/2
 		m_oRays.Allocate((uiWidth / 2)*(uiHeight / 2));
@@ -82,7 +86,7 @@ namespace RayTracer
 
 		//Zero out memory
 		for (unsigned int ui = 0; ui < displayBuffer.GetWidth()*m_uiHeight; ++ui)
-			displayBuffer[ui].Set(Graphics::Color<float>(0.0f, 0.0f, 0.0f));
+			displayBuffer[ui].Set(Graphics::Color<float>(0.0f, 0.0f, 0.1f));
 
 		for (unsigned int uiy = 0; uiy < m_uiHeight; uiy += 2)
 		{
@@ -93,7 +97,7 @@ namespace RayTracer
 
 				// Get intersection
 				m_pSearch->GetPrimaryIntersection(oResults, oIndices, oOrigin, m_oRays[uiRayIndex]);
-				if (_mm_movemask_ps(_mm_cmplt_ps(oResults.m_sseData, _mm_set_ps1(FLT_MAX))))
+				if (_mm_movemask_ps(_mm_cmplt_ps(oResults.m_sseData, _mm_set_ps1(m_maxDistance))))
 				{
 					oIntersection.Mul(oResults.m_sseData, m_oRays[uiRayIndex]);
 					oIntersection.Add(oOrigin);

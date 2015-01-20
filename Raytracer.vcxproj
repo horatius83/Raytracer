@@ -106,6 +106,9 @@
     <ClInclude Include="PolygonList.h" />
     <ClInclude Include="Random.h" />
     <ClInclude Include="RayTracer.h" />
+    <ClInclude Include="Renderable.h" />
+    <ClInclude Include="Scene.h" />
+    <ClInclude Include="Sphere.h" />
     <ClInclude Include="Texture.h" />
     <ClInclude Include="TgaLoader.h" />
     <ClInclude Include="Vector.h" />

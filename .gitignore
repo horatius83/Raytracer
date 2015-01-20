@@ -71,3 +71,11 @@ Debug.html
 Debug.html
 Debug/DirectX9.obj
 Release/DirectX9.obj
+Debug/Raytracer.Tests.dll
+*.dll
+*.exp
+*.lib
+*.filters
+*.sdf
+Release.html
+Debug.html
