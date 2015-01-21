@@ -12,7 +12,7 @@ namespace Graphics
 		
 		virtual Math::Vector GetMax();
 
-		virtual Math::Vector GetIntersection(const Math::Vector& origin, const Math::Vector& direction);
+		virtual float GetIntersection(const Math::Vector& origin, const Math::Vector& direction);
 	};
 }
 

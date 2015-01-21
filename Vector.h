@@ -55,7 +55,16 @@ namespace Math
 		void			Mul(const Vector& oVecA, const Vector& oVecB);
 		void			Add(const Vector& oVecA, const Vector& oVecB);
 		void			Sub(const Vector& oVecA, const Vector& oVecB);
-		Vector			Sub(const Vector& a);
+		
+		Vector	 Sub(const Vector& a) const {
+			/*auto x = _mm_sub_ps(m_sseData, a.m_sseData);
+			return Vector(x);*/
+			auto x = Vector(*this);
+			auto rv = Vector();
+			rv.Sub(x, a);
+			return rv;
+		}
+		
 		void			Cross(const Vector& oVecA, const Vector& oVecB);
 		void			Normal(const Vector& oVec);
 		void			LessThan(Vector& oAns, const Vector& oVec);
@@ -122,10 +131,10 @@ namespace Math
 		m_sseData = _mm_sub_ps(oVecA.m_sseData, oVecB.m_sseData);
 	}
 
-	inline Vector Vector::Sub(const Math::Vector& a) {
+	/*inline const Vector Vector::Sub(const Math::Vector& a) {
 		auto x = _mm_sub_ps(m_sseData, a.m_sseData);
 		return Vector(x);
-	}
+	}*/
 
 	inline void Vector::Add(const Math::Vector &oVecA, const Math::Vector &oVecB)
 	{

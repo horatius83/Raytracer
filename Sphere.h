@@ -28,11 +28,11 @@ namespace Math
 			if (dot > 0) {
 				auto a = direction.Dot(rayToOrigin);
 				auto c = rayToOrigin.Dot(rayToOrigin);
-				auto x = -a;
+				auto x = a;
 				auto y = a * a - c + _radius * _radius;
 				auto pos = x + y;
 				auto neg = x - y;
-				return std::tuple<bool, float>(true, fmaxf(pos, neg));
+				return std::tuple<bool, float>(true, fminf(pos, neg));
 			}
 			return std::tuple<bool, float>(false, 0);
 		}

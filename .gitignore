@@ -79,3 +79,5 @@ Debug/Raytracer.Tests.dll
 *.sdf
 Release.html
 Debug.html
+*.dll
+*.dll
